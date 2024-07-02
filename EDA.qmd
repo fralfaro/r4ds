@@ -1,11 +1,5 @@
 # Exploratory data analysis {#sec-exploratory-data-analysis}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 This chapter will show you how to use visualization and transformation to explore your data in a systematic way, a task that statisticians call exploratory data analysis, or EDA for short.
@@ -32,10 +26,7 @@ To do data cleaning, you'll need to deploy all the tools of EDA: visualization, 
 
 In this chapter we'll combine what you've learned about dplyr and ggplot2 to interactively ask questions, answer them with data, and then ask new questions.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 ```
 
@@ -79,15 +70,7 @@ The best way to understand that pattern is to visualize the distribution of the 
 We'll start our exploration by visualizing the distribution of weights (`carat`) of \~54,000 diamonds from the `diamonds` dataset.
 Since `carat` is a numerical variable, we can use a histogram:
 
-```{r}
-#| fig-alt: |
-#|   A histogram of carats of diamonds, with the x-axis ranging from 0 to 4.5 
-#|   and the y-axis ranging from 0 to 30000. The distribution is right skewed 
-#|   with very few diamonds in the bin centered at 0, almost 30000 diamonds in 
-#|   the bin centered at 0.5, approximately 15000 diamonds in the bin centered 
-#|   at 1, and much fewer, approximately 5000 diamonds in the bin centered at 
-#|   1.5. Beyond this, there's a trailing tail.
-
+```{webr-r}
 ggplot(diamonds, aes(x = carat)) +
   geom_histogram(binwidth = 0.5)
 ```
@@ -115,15 +98,8 @@ To turn this information into useful questions, look for anything unexpected:
 
 Let's take a look at the distribution of `carat` for smaller diamonds.
 
-```{r}
-#| fig-alt: |
-#|   A histogram of carats of diamonds, with the x-axis ranging from 0 to 3 and 
-#|   the y-axis ranging from 0 to roughly 2500. The binwidth is quite narrow 
-#|   (0.01), resulting in a very large number of skinny bars. The distribution 
-#|   is right skewed, with many peaks followed by bars in decreasing heights, 
-#|   until a sharp increase at the next peak.
-
-smaller <- diamonds |> 
+```{webr-r}
+smaller <- diamonds |>
   filter(carat < 3)
 
 ggplot(smaller, aes(x = carat)) +
@@ -159,28 +135,16 @@ When you have a lot of data, outliers are sometimes difficult to see in a histog
 For example, take the distribution of the `y` variable from the diamonds dataset.
 The only evidence of outliers is the unusually wide limits on the x-axis.
 
-```{r}
-#| fig-alt: |
-#|   A histogram of lengths of diamonds. The x-axis ranges from 0 to 60 and 
-#|   the y-axis ranges from 0 to 12000. There is a peak around 5, and the 
-#|   data appear to be completely clustered around the peak.
-
-ggplot(diamonds, aes(x = y)) + 
+```{webr-r}
+ggplot(diamonds, aes(x = y)) +
   geom_histogram(binwidth = 0.5)
 ```
 
 There are so many observations in the common bins that the rare bins are very short, making it very difficult to see them (although maybe if you stare intently at 0 you'll spot something).
 To make it easy to see the unusual values, we need to zoom to small values of the y-axis with `coord_cartesian()`:
 
-```{r}
-#| fig-alt: |
-#|   A histogram of lengths of diamonds. The x-axis ranges from 0 to 60 and the 
-#|   y-axis ranges from 0 to 50. There is a peak around 5, and the data 
-#|   appear to be completely clustered around the peak. Other than those data, 
-#|   there is one bin at 0 with a height of about 8, one a little over 30 with 
-#|   a height of 1 and another one a little below 60 with a height of 1.
-
-ggplot(diamonds, aes(x = y)) + 
+```{webr-r}
+ggplot(diamonds, aes(x = y)) +
   geom_histogram(binwidth = 0.5) +
   coord_cartesian(ylim = c(0, 50))
 ```
@@ -191,13 +155,11 @@ ggplot2 also has `xlim()` and `ylim()` functions that work slightly differently:
 This allows us to see that there are three unusual values: 0, \~30, and \~60.
 We pluck them out with dplyr:
 
-```{r}
-#| include: false
-
+```{webr-r}
 old <- options(tibble.print_max = 10, tibble.print_min = 10)
 ```
 
-```{r}
+```{webr-r}
 unusual <- diamonds |> 
   filter(y < 3 | y > 20) |> 
   select(price, x, y, z) |>
@@ -205,9 +167,7 @@ unusual <- diamonds |>
 unusual
 ```
 
-```{r}
-#| include: false
-
+```{webr-r}
 options(old)
 ```
 
@@ -246,9 +206,7 @@ If you've encountered unusual values in your dataset, and simply want to move on
 
 1.  Drop the entire row with the strange values:
 
-    ```{r}
-    #| eval: false
-
+    ```{webr-r}
     diamonds2 <- diamonds |> 
       filter(between(y, 3, 20))
     ```
@@ -260,31 +218,22 @@ If you've encountered unusual values in your dataset, and simply want to move on
     The easiest way to do this is to use `mutate()` to replace the variable with a modified copy.
     You can use the `if_else()` function to replace unusual values with `NA`:
 
-    ```{r}
+    ```{webr-r}
     diamonds2 <- diamonds |> 
       mutate(y = if_else(y < 3 | y > 20, NA, y))
     ```
 
 It's not obvious where you should plot missing values, so ggplot2 doesn't include them in the plot, but it does warn that they've been removed:
 
-```{r}
-#| dev: "png"
-#| fig-alt: |
-#|   A scatterplot of widths vs. lengths of diamonds. There is a strong, 
-#|   linear association between the two variables. All but one of the diamonds 
-#|   has length greater than 3. The one outlier has a length of 0 and a width 
-#|   of about 6.5. 
-
-ggplot(diamonds2, aes(x = x, y = y)) + 
+```{webr-r}
+ggplot(diamonds2, aes(x = x, y = y)) +
   geom_point()
 ```
 
 To suppress that warning, set `na.rm = TRUE`:
 
-```{r}
-#| eval: false
-
-ggplot(diamonds2, aes(x = x, y = y)) + 
+```{webr-r}
+ggplot(diamonds2, aes(x = x, y = y)) +
   geom_point(na.rm = TRUE)
 ```
 
@@ -295,14 +244,13 @@ You can do this by making a new variable, using `is.na()` to check if `dep_time`
 
 [^eda-1]: Remember that when we need to be explicit about where a function (or dataset) comes from, we'll use the special form `package::function()` or `package::dataset`.
 
-```{r}
-#| fig-alt: |
-#|   A frequency polygon of scheduled departure times of flights. Two lines 
-#|   represent flights that are cancelled and not cancelled. The x-axis ranges 
-#|   from 0 to 25 minutes and the y-axis ranges from 0 to 10000. The number of 
-#|   flights not cancelled are much higher than those cancelled.
+```{webr-r}
+library(nycflights13)
+```
 
-nycflights13::flights |> 
+
+```{webr-r}
+nycflights13::flights |>
   mutate(
     cancelled = is.na(dep_time),
     sched_hour = sched_dep_time %/% 100,
@@ -338,16 +286,8 @@ The best way to spot covariation is to visualize the relationship between two or
 
 For example, let's explore how the price of a diamond varies with its quality (measured by `cut`) using `geom_freqpoly()`:
 
-```{r}
-#| fig-alt: |
-#|   A frequency polygon of prices of diamonds where each cut of carat (Fair, 
-#|   Good, Very Good, Premium, and Ideal) is represented with a different color 
-#|   line. The x-axis ranges from 0 to 30000 and the y-axis ranges from 0 to 
-#|   5000. The lines overlap a great deal, suggesting similar frequency 
-#|   distributions of prices of diamonds. One notable feature is that 
-#|   Ideal diamonds have the highest peak around 1500.
-
-ggplot(diamonds, aes(x = price)) + 
+```{webr-r}
+ggplot(diamonds, aes(x = price)) +
   geom_freqpoly(aes(color = cut), binwidth = 500, linewidth = 0.75)
 ```
 
@@ -359,16 +299,8 @@ The default appearance of `geom_freqpoly()` is not that useful here because the 
 To make the comparison easier we need to swap what is displayed on the y-axis.
 Instead of displaying count, we'll display the **density**, which is the count standardized so that the area under each frequency polygon is one.
 
-```{r}
-#| fig-alt: |
-#|   A frequency polygon of densities of prices of diamonds where each cut of 
-#|   carat (Fair, Good, Very Good, Premium, and Ideal) is represented with a 
-#|   different color line. The x-axis ranges from 0 to 20000. The lines overlap 
-#|   a great deal, suggesting similar density distributions of prices of 
-#|   diamonds. One notable feature is that all but Fair diamonds have high peaks 
-#|   around a price of 1500 and Fair diamonds have a higher mean than others.
-
-ggplot(diamonds, aes(x = price, y = after_stat(density))) + 
+```{webr-r}
+ggplot(diamonds, aes(x = price, y = after_stat(density))) +
   geom_freqpoly(aes(color = cut), binwidth = 500, linewidth = 0.75)
 ```
 
@@ -380,13 +312,7 @@ But maybe that's because frequency polygons are a little hard to interpret - the
 
 A visually simpler plot for exploring this relationship is using side-by-side boxplots.
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side boxplots of prices of diamonds by cut. The distribution of 
-#|   prices is right skewed for each cut (Fair, Good, Very Good, Premium, and 
-#|   Ideal). The medians are close to each other, with the median for Ideal 
-#|   diamonds lowest and that for Fair highest.
-
+```{webr-r}
 ggplot(diamonds, aes(x = cut, y = price)) +
   geom_boxplot()
 ```
@@ -402,24 +328,14 @@ You'll learn more about that function in @sec-modifying-factor-order, but we wan
 For example, take the `class` variable in the `mpg` dataset.
 You might be interested to know how highway mileage varies across classes:
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side boxplots of highway mileages of cars by class. Classes are 
-#|   on the x-axis (2seaters, compact, midsize, minivan, pickup, subcompact, 
-#|   and suv).
-
+```{webr-r}
 ggplot(mpg, aes(x = class, y = hwy)) +
   geom_boxplot()
 ```
 
 To make the trend easier to see, we can reorder `class` based on the median value of `hwy`:
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side boxplots of highway mileages of cars by class. Classes are 
-#|   on the x-axis and ordered by increasing median highway mileage (pickup, 
-#|   suv, minivan, 2seater, subcompact, compact, and midsize).
-
+```{webr-r}
 ggplot(mpg, aes(x = fct_reorder(class, hwy, median), y = hwy)) +
   geom_boxplot()
 ```
@@ -427,11 +343,7 @@ ggplot(mpg, aes(x = fct_reorder(class, hwy, median), y = hwy)) +
 If you have long variable names, `geom_boxplot()` will work better if you flip it 90°.
 You can do that by exchanging the x and y aesthetic mappings.
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side boxplots of highway mileages of cars by class. Classes are 
-#|   on the y-axis and ordered by increasing median highway mileage.
-
+```{webr-r}
 ggplot(mpg, aes(x = hwy, y = fct_reorder(class, hwy, median))) +
   geom_boxplot()
 ```
@@ -466,14 +378,7 @@ ggplot(mpg, aes(x = hwy, y = fct_reorder(class, hwy, median))) +
 To visualize the covariation between categorical variables, you'll need to count the number of observations for each combination of levels of these categorical variables.
 One way to do that is to rely on the built-in `geom_count()`:
 
-```{r}
-#| fig-alt: |
-#|   A scatterplot of color vs. cut of diamonds. There is one point for each
-#|   combination of levels of cut (Fair, Good, Very Good, Premium, and Ideal) 
-#|   and color (D, E, F, G, G, I, and J). The sizes of the points represent 
-#|   the number of observations for that combination. The legend indicates 
-#|   that these sizes range between 1000 and 4000.
-
+```{webr-r}
 ggplot(diamonds, aes(x = cut, y = color)) +
   geom_count()
 ```
@@ -483,22 +388,15 @@ Covariation will appear as a strong correlation between specific x values and sp
 
 Another approach for exploring the relationship between these variables is computing the counts with dplyr:
 
-```{r}
+```{webr-r}
 diamonds |> 
   count(color, cut)
 ```
 
 Then visualize with `geom_tile()` and the fill aesthetic:
 
-```{r}
-#| fig-alt: |
-#|   A tile plot of cut vs. color of diamonds. Each tile represents a 
-#|   cut/color combination and tiles are colored according to the number of 
-#|   observations in each tile. There are more Ideal diamonds than other cuts, 
-#|   with the highest number being Ideal diamonds with color G. Fair diamonds 
-#|   and diamonds with color I are the lowest in frequency.
-
-diamonds |> 
+```{webr-r}
+diamonds |>
   count(color, cut) |>  
   ggplot(aes(x = color, y = cut)) +
   geom_tile(aes(fill = n))
@@ -525,12 +423,7 @@ You can see covariation as a pattern in the points.
 For example, you can see a positive relationship between the carat size and price of a diamond: diamonds with more carats have a higher price.
 The relationship is exponential.
 
-```{r}
-#| dev: "png"
-#| fig-alt: |
-#|   A scatterplot of price vs. carat. The relationship is positive, somewhat 
-#|   strong, and exponential.
-
+```{webr-r}
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_point()
 ```
@@ -540,15 +433,8 @@ ggplot(smaller, aes(x = carat, y = price)) +
 Scatterplots become less useful as the size of your dataset grows, because points begin to overplot, and pile up into areas of uniform black, making it hard to judge differences in the density of the data across the 2-dimensional space as well as making it hard to spot the trend.
 You've already seen one way to fix the problem: using the `alpha` aesthetic to add transparency.
 
-```{r}
-#| dev: "png"
-#| fig-alt: |
-#|   A scatterplot of price vs. carat. The relationship is positive, somewhat 
-#|   strong, and exponential. The points are transparent, showing clusters where 
-#|   the number of points is higher than other areas, The most obvious clusters 
-#|   are for diamonds with 1, 1.5, and 2 carats.
-
-ggplot(smaller, aes(x = carat, y = price)) + 
+```{webr-r}
+ggplot(smaller, aes(x = carat, y = price)) +
   geom_point(alpha = 1 / 100)
 ```
 
@@ -562,14 +448,7 @@ Now you'll learn how to use `geom_bin2d()` and `geom_hex()` to bin in two dimens
 `geom_hex()` creates hexagonal bins.
 You will need to install the hexbin package to use `geom_hex()`.
 
-```{r}
-#| layout-ncol: 2
-#| fig-width: 3
-#| fig-alt: |
-#|   Plot 1: A binned density plot of price vs. carat. Plot 2: A hexagonal bin 
-#|   plot of price vs. carat. Both plots show that the highest density of 
-#|   diamonds have low carats and low prices.
-
+```{webr-r}
 ggplot(smaller, aes(x = carat, y = price)) +
   geom_bin2d()
 
@@ -582,17 +461,8 @@ Another option is to bin one continuous variable so it acts like a categorical v
 Then you can use one of the techniques for visualizing the combination of a categorical and a continuous variable that you learned about.
 For example, you could bin `carat` and then for each group, display a boxplot:
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side box plots of price by carat. Each box plot represents diamonds 
-#|   that are 0.1 carats apart in weight. The box plots show that as carat 
-#|   increases the median price increases as well. Additionally, diamonds with 
-#|   1.5 carats or lower have right skewed price distributions, 1.5 to 2 have 
-#|   roughly symmetric price distributions, and diamonds that weigh more have 
-#|   left skewed distributions. Cheaper, smaller diamonds have outliers on the 
-#|   higher end, more expensive, bigger diamonds have outliers on the lower end.
-
-ggplot(smaller, aes(x = carat, y = price)) + 
+```{webr-r}
+ggplot(smaller, aes(x = carat, y = price)) +
   geom_boxplot(aes(group = cut_width(carat, 0.1)))
 ```
 
@@ -617,8 +487,7 @@ One way to show that is to make the width of the boxplot proportional to the num
     For example, some points in the following plot have an unusual combination of `x` and `y` values, which makes the points outliers even though their `x` and `y` values appear normal when examined separately.
     Why is a scatterplot a better display than a binned plot for this case?
 
-    ```{r}
-    #| eval: false
+    ```{webr-r}
     diamonds |> 
       filter(x >= 4) |> 
       ggplot(aes(x = x, y = y)) +
@@ -629,8 +498,7 @@ One way to show that is to make the width of the boxplot proportional to the num
 6.  Instead of creating boxes of equal width with `cut_width()`, we could create boxes that contain roughly equal number of points with `cut_number()`.
     What are the advantages and disadvantages of this approach?
 
-    ```{r}
-    #| eval: false
+    ```{webr-r}
     ggplot(smaller, aes(x = carat, y = price)) + 
       geom_boxplot(aes(group = cut_number(carat, 20)))
     ```
@@ -664,17 +532,11 @@ The residuals give us a view of the price of the diamond, once the effect of car
 Note that instead of using the raw values of `price` and `carat`, we log transform them first, and fit a model to the log-transformed values.
 Then, we exponentiate the residuals to put them back in the scale of raw prices.
 
-```{r}
-#| message: false
-#| dev: "png"
-#| fig-alt: |
-#|   A scatterplot of residuals vs. carat of diamonds. The x-axis ranges from 0 
-#|   to 5, the y-axis ranges from 0 to almost 4. Much of the data are clustered 
-#|   around low values of carat and residuals. There is a clear, curved pattern 
-#|   showing decrease in residuals as carat increases.
-
+```{webr-r}
 library(tidymodels)
+```
 
+```{webr-r}
 diamonds <- diamonds |>
   mutate(
     log_price = log(price),
@@ -693,14 +555,8 @@ ggplot(diamonds_aug, aes(x = carat, y = .resid)) +
 
 Once you've removed the strong relationship between carat and price, you can see what you expect in the relationship between cut and price: relative to their size, better quality diamonds are more expensive.
 
-```{r}
-#| fig-alt: |
-#|   Side-by-side box plots of residuals by cut. The x-axis displays the various 
-#|   cuts (Fair to Ideal), the y-axis ranges from 0 to almost 5. The medians are 
-#|   quite similar, between roughly 0.75 to 1.25. Each of the distributions of 
-#|   residuals is right skewed, with many outliers on the higher end.
-
-ggplot(diamonds_aug, aes(x = cut, y = .resid)) + 
+```{webr-r}
+ggplot(diamonds_aug, aes(x = cut, y = .resid)) +
   geom_boxplot()
 ```
 

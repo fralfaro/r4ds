@@ -1,11 +1,5 @@
 # Joins {#sec-joins}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 It's rare that a data analysis involves only a single data frame.
@@ -24,10 +18,7 @@ We'll finish up with a discussion of non-equi joins, a family of joins that prov
 
 In this chapter, we'll explore the five related datasets from nycflights13 using the join functions from dplyr.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 library(nycflights13)
 ```
@@ -47,14 +38,14 @@ When more than one variable is needed, the key is called a **compound key.** For
 -   `airlines` records two pieces of data about each airline: its carrier code and its full name.
     You can identify an airline with its two letter carrier code, making `carrier` the primary key.
 
-    ```{r}
+    ```{webr-r}
     airlines
     ```
 
 -   `airports` records data about each airport.
     You can identify each airport by its three letter airport code, making `faa` the primary key.
 
-    ```{r}
+    ```{webr-r}
     #| R.options:
     #|   width: 67
     airports
@@ -63,7 +54,7 @@ When more than one variable is needed, the key is called a **compound key.** For
 -   `planes` records data about each plane.
     You can identify a plane by its tail number, making `tailnum` the primary key.
 
-    ```{r}
+    ```{webr-r}
     #| R.options:
     #|   width: 67
     planes
@@ -72,7 +63,7 @@ When more than one variable is needed, the key is called a **compound key.** For
 -   `weather` records data about the weather at the origin airports.
     You can identify each observation by the combination of location and time, making `origin` and `time_hour` the compound primary key.
 
-    ```{r}
+    ```{webr-r}
     #| R.options:
     #|   width: 67
     weather
@@ -120,7 +111,7 @@ Now that that we've identified the primary keys in each table, it's good practic
 One way to do that is to `count()` the primary keys and look for entries where `n` is greater than one.
 This reveals that `planes` and `weather` both look good:
 
-```{r}
+```{webr-r}
 planes |> 
   count(tailnum) |> 
   filter(n > 1)
@@ -132,7 +123,7 @@ weather |>
 
 You should also check for missing values in your primary keys --- if a value is missing then it can't identify an observation!
 
-```{r}
+```{webr-r}
 planes |> 
   filter(is.na(tailnum))
 
@@ -147,7 +138,7 @@ It's not super important here, because there are no data frames that use it as a
 
 After a little thinking and experimentation, we determined that there are three variables that together uniquely identify each flight:
 
-```{r}
+```{webr-r}
 flights |> 
   count(time_hour, carrier, flight) |> 
   filter(n > 1)
@@ -157,7 +148,7 @@ Does the absence of duplicates automatically make `time_hour`-`carrier`-`flight`
 It's certainly a good start, but it doesn't guarantee it.
 For example, are altitude and latitude a good primary key for `airports`?
 
-```{r}
+```{webr-r}
 airports |>
   count(alt, lat) |> 
   filter(n > 1)
@@ -168,7 +159,7 @@ But for flights, the combination of `time_hour`, `carrier`, and `flight` seems r
 
 That said, we might be better off introducing a simple numeric surrogate key using the row number:
 
-```{r}
+```{webr-r}
 flights2 <- flights |> 
   mutate(id = row_number(), .before = 1)
 flights2
@@ -213,7 +204,7 @@ For these examples, we'll make it easier to see what's going on by creating a na
 
 [^joins-1]: Remember that in RStudio you can also use `View()` to avoid this problem.
 
-```{r}
+```{webr-r}
 flights2 <- flights |> 
   select(year, time_hour, origin, dest, tailnum, carrier)
 flights2
@@ -226,21 +217,21 @@ For example, we can use `left_join()` to add the full airline name to the `fligh
 
 [^joins-2]: That's not 100% true, but you'll get a warning whenever it isn't.
 
-```{r}
+```{webr-r}
 flights2 |>
   left_join(airlines)
 ```
 
 Or we could find out the temperature and wind speed when each plane departed:
 
-```{r}
+```{webr-r}
 flights2 |> 
   left_join(weather |> select(origin, time_hour, temp, wind_speed))
 ```
 
 Or what size of plane was flying:
 
-```{r}
+```{webr-r}
 flights2 |> 
   left_join(planes |> select(tailnum, type, engines, seats))
 ```
@@ -248,7 +239,7 @@ flights2 |>
 When `left_join()` fails to find a match for a row in `x`, it fills in the new variables with missing values.
 For example, there's no information about the plane with tail number `N3ALAA` so the `type`, `engines`, and `seats` will be missing:
 
-```{r}
+```{webr-r}
 flights2 |> 
   filter(tailnum == "N3ALAA") |> 
   left_join(planes |> select(tailnum, type, engines, seats))
@@ -262,7 +253,7 @@ By default, `left_join()` will use all variables that appear in both data frames
 This is a useful heuristic, but it doesn't always work.
 For example, what happens if we try to join `flights2` with the complete `planes` dataset?
 
-```{r}
+```{webr-r}
 flights2 |> 
   left_join(planes)
 ```
@@ -271,7 +262,7 @@ We get a lot of missing matches because our join is trying to use `tailnum` and 
 Both `flights` and `planes` have a `year` column but they mean different things: `flights$year` is the year the flight occurred and `planes$year` is the year the plane was built.
 We only want to join on `tailnum` so we need to provide an explicit specification with `join_by()`:
 
-```{r}
+```{webr-r}
 flights2 |> 
   left_join(planes, join_by(tailnum))
 ```
@@ -288,7 +279,7 @@ You'll learn about non-equi joins in @sec-non-equi-joins.
 Secondly, it's how you specify different join keys in each table.
 For example, there are two ways to join the `flight2` and `airports` table: either by `dest` or `origin`:
 
-```{r}
+```{webr-r}
 flights2 |> 
   left_join(airports, join_by(dest == faa))
 
@@ -314,14 +305,14 @@ There are two types: semi-joins and anti-joins.
 **Semi-joins** keep all rows in `x` that have a match in `y`.
 For example, we could use a semi-join to filter the `airports` dataset to show just the origin airports:
 
-```{r}
+```{webr-r}
 airports |> 
   semi_join(flights2, join_by(faa == origin))
 ```
 
 Or just the destinations:
 
-```{r}
+```{webr-r}
 airports |> 
   semi_join(flights2, join_by(faa == dest))
 ```
@@ -331,7 +322,7 @@ They're useful for finding missing values that are **implicit** in the data, the
 Implicitly missing values don't show up as `NA`s but instead only exist as an absence.
 For example, we can find rows that are missing from `airports` by looking for flights that don't have a matching destination airport:
 
-```{r}
+```{webr-r}
 flights2 |> 
   anti_join(airports, join_by(dest == faa)) |> 
   distinct(dest)
@@ -339,7 +330,7 @@ flights2 |>
 
 Or we can find which `tailnum`s are missing from `planes`:
 
-```{r}
+```{webr-r}
 flights2 |>
   anti_join(planes, join_by(tailnum)) |> 
   distinct(tailnum)
@@ -353,7 +344,7 @@ flights2 |>
 
 2.  Imagine you've found the top 10 most popular destinations using this code:
 
-    ```{r}
+    ```{webr-r}
     top_dest <- flights2 |>
       count(dest, sort = TRUE) |>
       head(10)
@@ -376,7 +367,7 @@ flights2 |>
 7.  Compute the average delay by destination, then join on the `airports` data frame so you can show the spatial distribution of delays.
     Here's an easy way to draw a map of the United States:
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     airports |>
@@ -392,7 +383,7 @@ flights2 |>
 8.  What happened on June 13 2013?
     Draw a map of the delays, and then use Google to cross-reference with the weather.
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
     #| include: false
 
@@ -414,7 +405,7 @@ Now that you've used joins a few times it's time to learn more about how they wo
 We'll begin by introducing a visual representation of joins, using the simple tibbles defined below and shown in @fig-join-setup.
 In these examples we'll use a single key called `key` and a single value column (`val_x` and `val_y`), but the ideas all generalize to multiple keys and multiple values.
 
-```{r}
+```{webr-r}
 x <- tribble(
   ~key, ~val_x,
      1, "x1",
@@ -611,7 +602,7 @@ In principle, this means that there's no guaranteed correspondence between the r
 There is, however, one particularly dangerous case which can cause a combinatorial explosion of rows.
 Imagine joining the following two tables:
 
-```{r}
+```{webr-r}
 df1 <- tibble(key = c(1, 2, 2), val_x = c("x1", "x2", "x3"))
 df2 <- tibble(key = c(1, 2, 2), val_y = c("y1", "y2", "y3"))
 ```
@@ -619,7 +610,7 @@ df2 <- tibble(key = c(1, 2, 2), val_y = c("y1", "y2", "y3"))
 While the first row in `df1` only matches one row in `df2`, the second and third rows both match two rows.
 This is sometimes called a `many-to-many` join, and will cause dplyr to emit a warning:
 
-```{r}
+```{webr-r}
 df1 |> 
   inner_join(df2, join_by(key))
 ```
@@ -672,7 +663,7 @@ But before we can do that, we need to revisit a simplification we made above.
 In equi joins the `x` keys and `y` are always equal, so we only need to show one in the output.
 We can request that dplyr keep both keys with `keep = TRUE`, leading to the code below and the re-drawn `inner_join()` in @fig-inner-both.
 
-```{r}
+```{webr-r}
 x |> inner_join(y, join_by(key == key), keep = TRUE)
 ```
 
@@ -740,7 +731,7 @@ For example, the code below generates every possible pair of names.
 Since we're joining `df` to itself, this is sometimes called a **self-join**.
 Cross joins use a different join function because there's no distinction between inner/left/right/full when you're matching every row.
 
-```{r}
+```{webr-r}
 df <- tibble(name = c("John", "Simon", "Tracy", "Max"))
 df |> cross_join(df)
 ```
@@ -768,7 +759,7 @@ knitr::include_graphics("diagrams/join/lt.png", dpi = 270)
 Inequality joins are extremely general, so general that it's hard to come up with meaningful specific use cases.
 One small useful technique is to use them to restrict the cross join so that instead of generating all permutations, we generate all combinations:
 
-```{r}
+```{webr-r}
 df <- tibble(id = 1:4, name = c("John", "Simon", "Tracy", "Max"))
 
 df |> inner_join(df, join_by(id < id))
@@ -801,7 +792,7 @@ Your company is rather cheap so instead of having individual parties, you only h
 The rules for determining when a party will be held are a little complex: parties are always on a Monday, you skip the first week of January since a lot of people are on holiday, and the first Monday of Q3 2022 is July 4, so that has to be pushed back a week.
 That leads to the following party days:
 
-```{r}
+```{webr-r}
 parties <- tibble(
   q = 1:4,
   party = ymd(c("2022-01-10", "2022-04-04", "2022-07-11", "2022-10-03"))
@@ -810,7 +801,7 @@ parties <- tibble(
 
 Now imagine that you have a table of employee birthdays:
 
-```{r}
+```{webr-r}
 set.seed(123)
 employees <- tibble(
   name = sample(babynames::babynames$name, 100),
@@ -822,14 +813,14 @@ employees
 And for each employee we want to find the first party date that comes after (or on) their birthday.
 We can express that with a rolling join:
 
-```{r}
+```{webr-r}
 employees |> 
   left_join(parties, join_by(closest(birthday >= party)))
 ```
 
 There is, however, one problem with this approach: the folks with birthdays before January 10 don't get a party:
 
-```{r}
+```{webr-r}
 employees |> 
   anti_join(parties, join_by(closest(birthday >= party)))
 ```
@@ -848,7 +839,7 @@ Let's continue the birthday example to see how you might use them.
 There's one problem with the strategy we used above: there's no party preceding the birthdays Jan 1-9.
 So it might be better to be explicit about the date ranges that each party spans, and make a special case for those early birthdays:
 
-```{r}
+```{webr-r}
 parties <- tibble(
   q = 1:4,
   party = ymd(c("2022-01-10", "2022-04-04", "2022-07-11", "2022-10-03")),
@@ -861,7 +852,7 @@ parties
 Hadley is hopelessly bad at data entry so he also wanted to check that the party periods don't overlap.
 One way to do this is by using a self-join to check if any start-end interval overlap with another:
 
-```{r}
+```{webr-r}
 parties |> 
   inner_join(parties, join_by(overlaps(start, end, start, end), q < q)) |> 
   select(start.x, end.x, start.y, end.y)
@@ -869,7 +860,7 @@ parties |>
 
 Ooops, there is an overlap, so let's fix that problem and continue:
 
-```{r}
+```{webr-r}
 parties <- tibble(
   q = 1:4,
   party = ymd(c("2022-01-10", "2022-04-04", "2022-07-11", "2022-10-03")),
@@ -881,7 +872,7 @@ parties <- tibble(
 Now we can match each employee to their party.
 This is a good place to use `unmatched = "error"` because we want to quickly find out if any employees didn't get assigned a party.
 
-```{r}
+```{webr-r}
 employees |> 
   inner_join(parties, join_by(between(birthday, start, end)), unmatched = "error")
 ```
@@ -891,7 +882,7 @@ employees |>
 1.  Can you explain what's happening with the keys in this equi join?
     Why are they different?
 
-    ```{r}
+    ```{webr-r}
     x |> full_join(y, join_by(key == key))
 
     x |> full_join(y, join_by(key == key), keep = TRUE)

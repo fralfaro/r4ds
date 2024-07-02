@@ -1,10 +1,6 @@
 # Functions {#sec-functions}
 
-```{r}
-#| echo: false
 
-source("_common.R")
-```
 
 ## Introduction
 
@@ -36,8 +32,7 @@ You might also want to read the original motivating tweets for [general function
 We'll wrap up a variety of functions from around the tidyverse.
 We'll also use nycflights13 as a source of familiar data to use our functions with.
 
-```{r}
-#| message: false
+```{webr-r}
 library(tidyverse)
 library(nycflights13)
 ```
@@ -48,7 +43,7 @@ We'll begin with vector functions: functions that take one or more vectors and r
 For example, take a look at this code.
 What does it do?
 
-```{r}
+```{webr-r}
 df <- tibble(
   a = rnorm(5),
   b = rnorm(5),
@@ -78,9 +73,7 @@ Preventing this type of mistake is one very good reason to learn how to write fu
 To write a function you need to first analyse your repeated code to figure what parts are constant and what parts vary.
 If we take the code above and pull it outside of `mutate()`, it's a little easier to see the pattern because each repetition is now one line:
 
-```{r}
-#| eval: false
-
+```r
 (a - min(a, na.rm = TRUE)) / (max(a, na.rm = TRUE) - min(a, na.rm = TRUE))
 (b - min(b, na.rm = TRUE)) / (max(b, na.rm = TRUE) - min(b, na.rm = TRUE))
 (c - min(c, na.rm = TRUE)) / (max(c, na.rm = TRUE) - min(c, na.rm = TRUE))
@@ -89,8 +82,7 @@ If we take the code above and pull it outside of `mutate()`, it's a little easie
 
 To make this a bit clearer we can replace the bit that varies with `█`:
 
-```{r}
-#| eval: false
+```r
 (█ - min(█, na.rm = TRUE)) / (max(█, na.rm = TRUE) - min(█, na.rm = TRUE))
 ```
 
@@ -108,7 +100,7 @@ To turn this into a function you need three things:
 
 Then you create a function by following the template:
 
-```{r}
+```{webr-r}
 name <- function(arguments) {
   body
 }
@@ -116,7 +108,7 @@ name <- function(arguments) {
 
 For this case that leads to:
 
-```{r}
+```{webr-r}
 rescale01 <- function(x) {
   (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
 }
@@ -124,14 +116,14 @@ rescale01 <- function(x) {
 
 At this point you might test with a few simple inputs to make sure you've captured the logic correctly:
 
-```{r}
+```{webr-r}
 rescale01(c(-10, 0, 10))
 rescale01(c(1, 2, 3, NA, 5))
 ```
 
 Then you can rewrite the call to `mutate()` as:
 
-```{r}
+```{webr-r}
 df |> mutate(
   a = rescale01(a),
   b = rescale01(b),
@@ -146,7 +138,7 @@ df |> mutate(
 
 You might notice that the `rescale01()` function does some unnecessary work --- instead of computing `min()` twice and `max()` once we could instead compute both the minimum and maximum in one step with `range()`:
 
-```{r}
+```{webr-r}
 rescale01 <- function(x) {
   rng <- range(x, na.rm = TRUE)
   (x - rng[1]) / (rng[2] - rng[1])
@@ -155,14 +147,14 @@ rescale01 <- function(x) {
 
 Or you might try this function on a vector that includes an infinite value:
 
-```{r}
+```{webr-r}
 x <- c(1:10, Inf)
 rescale01(x)
 ```
 
 That result is not particularly useful so we could ask `range()` to ignore infinite values:
 
-```{r}
+```{webr-r}
 rescale01 <- function(x) {
   rng <- range(x, na.rm = TRUE, finite = TRUE)
   (x - rng[1]) / (rng[2] - rng[1])
@@ -181,7 +173,7 @@ We'll start by looking at "mutate" functions, i.e. functions that work well insi
 Let's start with a simple variation of `rescale01()`.
 Maybe you want to compute the Z-score, rescaling a vector to have a mean of zero and a standard deviation of one:
 
-```{r}
+```{webr-r}
 z_score <- function(x) {
   (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)
 }
@@ -190,7 +182,7 @@ z_score <- function(x) {
 Or maybe you want to wrap up a straightforward `case_when()` and give it a useful name.
 For example, this `clamp()` function ensures all values of a vector lie in between a minimum or a maximum:
 
-```{r}
+```{webr-r}
 clamp <- function(x, min, max) {
   case_when(
     x < min ~ min,
@@ -206,7 +198,7 @@ Of course functions don't just need to work with numeric variables.
 You might want to do some repeated string manipulation.
 Maybe you need to make the first character upper case:
 
-```{r}
+```{webr-r}
 first_upper <- function(x) {
   str_sub(x, 1, 1) <- str_to_upper(str_sub(x, 1, 1))
   x
@@ -217,7 +209,7 @@ first_upper("hello")
 
 Or maybe you want to strip percent signs, commas, and dollar signs from a string before converting it into a number:
 
-```{r}
+```{webr-r}
 # https://twitter.com/NVlabormarket/status/1571939851922198530
 clean_number <- function(x) {
   is_pct <- str_detect(x, "%")
@@ -236,7 +228,7 @@ clean_number("45%")
 Sometimes your functions will be highly specialized for one data analysis step.
 For example, if you have a bunch of variables that record missing values as 997, 998, or 999, you might want to write a function to replace them with `NA`:
 
-```{r}
+```{webr-r}
 fix_na <- function(x) {
   if_else(x %in% c(997, 998, 999), NA, x)
 }
@@ -250,7 +242,7 @@ But there's no reason that your function can't take multiple vector inputs.
 Another important family of vector functions is summary functions, functions that return a single value for use in `summarize()`.
 Sometimes this can just be a matter of setting a default argument or two:
 
-```{r}
+```{webr-r}
 commas <- function(x) {
   str_flatten(x, collapse = ", ", last = " and ")
 }
@@ -260,7 +252,7 @@ commas(c("cat", "dog", "pigeon"))
 
 Or you might wrap up a simple computation, like for the coefficient of variation, which divides the standard deviation by the mean:
 
-```{r}
+```{webr-r}
 cv <- function(x, na.rm = FALSE) {
   sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
 }
@@ -271,7 +263,7 @@ cv(runif(100, min = 0, max = 500))
 
 Or maybe you just want to make a common pattern easier to remember by giving it a memorable name:
 
-```{r}
+```{webr-r}
 # https://twitter.com/gbganalyst/status/1571619641390252033
 n_missing <- function(x) {
   sum(is.na(x))
@@ -281,7 +273,7 @@ n_missing <- function(x) {
 You can also write functions with multiple vector inputs.
 For example, maybe you want to compute the mean absolute percentage error to help you compare model predictions with actual values:
 
-```{r}
+```{webr-r}
 # https://twitter.com/neilgcurrie/status/1571607727255834625
 mape <- function(actual, predicted) {
   sum(abs((actual - predicted) / actual)) / length(actual)
@@ -306,7 +298,7 @@ Once you start writing functions, there are two RStudio shortcuts that are super
     What would you call it?
     How many arguments does it need?
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     mean(is.na(x))
@@ -335,7 +327,7 @@ Once you start writing functions, there are two RStudio shortcuts that are super
 6.  Read the documentation to figure out what the following functions do.
     Why are they useful even though they are so short?
 
-    ```{r}
+    ```{webr-r}
     is_directory <- function(x) {
       file.info(x)$isdir
     }
@@ -360,7 +352,7 @@ When you start writing functions that use dplyr verbs you rapidly hit the proble
 Let's illustrate the problem with a very simple function: `grouped_mean()`.
 The goal of this function is to compute the mean of `mean_var` grouped by `group_var`:
 
-```{r}
+```{webr-r}
 grouped_mean <- function(df, group_var, mean_var) {
   df |> 
     group_by(group_var) |> 
@@ -370,14 +362,14 @@ grouped_mean <- function(df, group_var, mean_var) {
 
 If we try and use it, we get an error:
 
-```{r}
+```{webr-r}
 #| error: true
 diamonds |> grouped_mean(cut, carat)
 ```
 
 To make the problem a bit more clear, we can use a made up data frame:
 
-```{r}
+```{webr-r}
 df <- tibble(
   mean_var = 1,
   group_var = "g",
@@ -404,7 +396,7 @@ One way to remember what's happening is to think of `{{ }}` as looking down a tu
 
 So to make `grouped_mean()` work, we need to surround `group_var` and `mean_var` with `{{ }}`:
 
-```{r}
+```{webr-r}
 grouped_mean <- function(df, group_var, mean_var) {
   df |> 
     group_by({{ group_var }}) |> 
@@ -434,7 +426,7 @@ In the following sections, we'll explore the sorts of handy functions you might 
 
 If you commonly perform the same set of summaries when doing initial data exploration, you might consider wrapping them up in a helper function:
 
-```{r}
+```{webr-r}
 summary6 <- function(data, var) {
   data |> summarize(
     min = min({{ var }}, na.rm = TRUE),
@@ -454,7 +446,7 @@ diamonds |> summary6(carat)
 
 The nice thing about this function is, because it wraps `summarize()`, you can use it on grouped data:
 
-```{r}
+```{webr-r}
 diamonds |> 
   group_by(cut) |> 
   summary6(carat)
@@ -463,7 +455,7 @@ diamonds |>
 Furthermore, since the arguments to summarize are data-masking also means that the `var` argument to `summary6()` is data-masking.
 That means you can also summarize computed variables:
 
-```{r}
+```{webr-r}
 diamonds |> 
   group_by(cut) |> 
   summary6(log10(carat))
@@ -473,7 +465,7 @@ To summarize multiple variables, you'll need to wait until @sec-across, where yo
 
 Another popular `summarize()` helper function is a version of `count()` that also computes proportions:
 
-```{r}
+```{webr-r}
 # https://twitter.com/Diabb6/status/1571635146658402309
 count_prop <- function(df, var, sort = FALSE) {
   df |>
@@ -490,7 +482,7 @@ Note that we use a default value for `sort` so that if the user doesn't supply t
 Or maybe you want to find the sorted unique values of a variable for a subset of the data.
 Rather than supplying a variable and a value to do the filtering, we'll allow the user to supply a condition:
 
-```{r}
+```{webr-r}
 unique_where <- function(df, condition, var) {
   df |> 
     filter({{ condition }}) |> 
@@ -507,7 +499,7 @@ Here we embrace `condition` because it's passed to `filter()` and `var` because 
 We've made all these examples to take a data frame as the first argument, but if you're working repeatedly with the same data, it can make sense to hardcode it.
 For example, the following function always works with the flights dataset and always selects `time_hour`, `carrier`, and `flight` since they form the compound primary key that allows you to identify a row.
 
-```{r}
+```{webr-r}
 subset_flights <- function(rows, cols) {
   flights |> 
     filter({{ rows }}) |> 
@@ -521,7 +513,7 @@ Sometimes you want to select variables inside a function that uses data-masking.
 For example, imagine you want to write a `count_missing()` that counts the number of missing observations in rows.
 You might try writing something like:
 
-```{r}
+```{webr-r}
 #| error: true
 count_missing <- function(df, group_vars, x_var) {
   df |> 
@@ -539,7 +531,7 @@ flights |>
 This doesn't work because `group_by()` uses data-masking, not tidy-selection.
 We can work around that problem by using the handy `pick()` function, which allows you to use tidy-selection inside data-masking functions:
 
-```{r}
+```{webr-r}
 count_missing <- function(df, group_vars, x_var) {
   df |> 
     group_by(pick({{ group_vars }})) |> 
@@ -556,7 +548,7 @@ flights |>
 Another convenient use of `pick()` is to make a 2d table of counts.
 Here we count using all the variables in the `rows` and `columns`, then use `pivot_wider()` to rearrange the counts into a grid:
 
-```{r}
+```{webr-r}
 # https://twitter.com/pollicipes/status/1571606508944719876
 count_wide <- function(data, rows, cols) {
   data |> 
@@ -580,35 +572,35 @@ While our examples have mostly focused on dplyr, tidy evaluation also underpins 
 
     1.  Finds all flights that were cancelled (i.e. `is.na(arr_time)`) or delayed by more than an hour.
 
-        ```{r}
+        ```{webr-r}
         #| eval: false
         flights |> filter_severe()
         ```
 
     2.  Counts the number of cancelled flights and the number of flights delayed by more than an hour.
 
-        ```{r}
+        ```{webr-r}
         #| eval: false
         flights |> group_by(dest) |> summarize_severe()
         ```
 
     3.  Finds all flights that were cancelled or delayed by more than a user supplied number of hours:
 
-        ```{r}
+        ```{webr-r}
         #| eval: false
         flights |> filter_severe(hours = 2)
         ```
 
     4.  Summarizes the weather to compute the minimum, mean, and maximum, of a user supplied variable:
 
-        ```{r}
+        ```{webr-r}
         #| eval: false
         weather |> summarize_weather(temp)
         ```
 
     5.  Converts the user supplied variable that uses clock time (e.g., `dep_time`, `arr_time`, etc.) into a decimal time (i.e. hours + (minutes / 60)).
 
-        ```{r}
+        ```{webr-r}
         #| eval: false
         flights |> standardize_time(sched_dep_time)
         ```
@@ -617,7 +609,7 @@ While our examples have mostly focused on dplyr, tidy evaluation also underpins 
 
 3.  Generalize the following function so that you can supply any number of variables to count.
 
-    ```{r}
+    ```{webr-r}
     count_prop <- function(df, var, sort = FALSE) {
       df |>
         count({{ var }}, sort = sort) |>
@@ -631,7 +623,7 @@ Instead of returning a data frame, you might want to return a plot.
 Fortunately, you can use the same techniques with ggplot2, because `aes()` is a data-masking function.
 For example, imagine that you're making a lot of histograms:
 
-```{r}
+```{webr-r}
 #| fig-show: hide
 diamonds |> 
   ggplot(aes(x = carat)) +
@@ -645,11 +637,7 @@ diamonds |>
 Wouldn't it be nice if you could wrap this up into a histogram function?
 This is easy as pie once you know that `aes()` is a data-masking function and you need to embrace:
 
-```{r}
-#| fig-alt: |
-#|   A histogram of carats of diamonds, ranging from 0 to 5, showing a unimodal, 
-#|   right-skewed distribution with a peak between 0 to 1 carats.
-
+```{webr-r}
 histogram <- function(df, var, binwidth = NULL) {
   df |> 
     ggplot(aes(x = {{ var }})) + 
@@ -662,7 +650,7 @@ diamonds |> histogram(carat, 0.1)
 Note that `histogram()` returns a ggplot2 plot, meaning you can still add on additional components if you want.
 Just remember to switch from `|>` to `+`:
 
-```{r}
+```{webr-r}
 #| fig.show: hide
 diamonds |> 
   histogram(carat, 0.1) +
@@ -674,12 +662,7 @@ diamonds |>
 It's straightforward to add more variables to the mix.
 For example, maybe you want an easy way to eyeball whether or not a dataset is linear by overlaying a smooth line and a straight line:
 
-```{r}
-#| fig-alt: |
-#|   Scatterplot of height vs. mass of StarWars characters showing a positive 
-#|   relationship. A smooth curve of the relationship is plotted in red, and 
-#|   the best fit line is ploted in blue.
-
+```{webr-r}
 # https://twitter.com/tyler_js_smith/status/1574377116988104704
 linearity_check <- function(df, x, y) {
   df |>
@@ -696,11 +679,7 @@ starwars |>
 
 Or maybe you want an alternative to colored scatterplots for very large datasets where overplotting is a problem:
 
-```{r}
-#| fig-alt: |
-#|   Hex plot of price vs. carat of diamonds showing a positive relationship. 
-#|   There are more diamonds that are less than 2 carats than more than 2 carats.
-
+```{webr-r}
 # https://twitter.com/ppaxisa/status/1574398423175921665
 hex_plot <- function(df, x, y, z, bins = 20, fun = "mean") {
   df |> 
@@ -721,12 +700,7 @@ Some of the most useful helpers combine a dash of data manipulation with ggplot2
 For example, if you might want to do a vertical bar chart where you automatically sort the bars in frequency order using `fct_infreq()`.
 Since the bar chart is vertical, we also need to reverse the usual order to get the highest values at the top:
 
-```{r}
-#| fig-alt: |
-#|   Bar plot of clarify of diamonds, where clarity is on the y-axis and counts 
-#|   are on the x-axis, and the bars are ordered in order of frequency: SI1, 
-#|   VS2, SI2, VS1, VVS2, VVS1, IF, I1.
-
+```{webr-r}
 sorted_bars <- function(df, var) {
   df |> 
     mutate({{ var }} := fct_rev(fct_infreq({{ var }})))  |>
@@ -743,11 +717,7 @@ To work around this problem, we use the special operator `:=` which tidy evaluat
 
 Or maybe you want to make it easy to draw a bar plot just for a subset of the data:
 
-```{r}
-#| fig-alt: |
-#|   Bar plot of clarity of diamonds. The most common is SI1, then SI2, then 
-#|   VS2, then VS1, then VVS2, then VVS1, then I1, then lastly IF.
-
+```{webr-r}
 conditional_bars <- function(df, condition, var) {
   df |> 
     filter({{ condition }}) |> 
@@ -768,7 +738,7 @@ We'll finish with a more complicated case: labelling the plots you create.
 
 Remember the histogram function we showed you earlier?
 
-```{r}
+```{webr-r}
 histogram <- function(df, var, binwidth = NULL) {
   df |> 
     ggplot(aes(x = {{ var }})) + 
@@ -784,11 +754,7 @@ To solve the labeling problem we can use `rlang::englue()`.
 This works similarly to `str_glue()`, so any value wrapped in `{ }` will be inserted into the string.
 But it also understands `{{ }}`, which automatically inserts the appropriate variable name:
 
-```{r}
-#| fig-alt: |
-#|   Histogram of carats of diamonds, ranging from 0 to 5. The distribution is 
-#|   unimodal and right skewed with a peak between 0 to 1 carats.
-
+```{webr-r}
 histogram <- function(df, var, binwidth) {
   label <- rlang::englue("A histogram of {{var}} with binwidth {binwidth}")
   
@@ -824,7 +790,7 @@ Generally, function names should be verbs, and arguments should be nouns.
 There are some exceptions: nouns are ok if the function computes a very well known noun (i.e. `mean()` is better than `compute_mean()`), or accessing some property of an object (i.e. `coef()` is better than `get_coefficients()`).
 Use your best judgement and don't be afraid to rename a function if you figure out a better name later.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # Too short
@@ -843,7 +809,7 @@ Continue to follow the rules from @sec-workflow-style.
 Additionally, `function()` should always be followed by squiggly brackets (`{}`), and the contents should be indented by an additional two spaces.
 This makes it easier to see the hierarchy in your code by skimming the left-hand margin.
 
-```{r}
+```{webr-r}
 # Missing extra two spaces
 density <- function(color, facets, binwidth = 0.1) {
 diamonds |> 
@@ -868,7 +834,7 @@ This makes it very obvious that something unusual is happening.
 
 1.  Read the source code for each of the following two functions, puzzle out what they do, and then brainstorm better names.
 
-    ```{r}
+    ```{webr-r}
     f1 <- function(string, prefix) {
       str_sub(string, 1, str_length(prefix)) == prefix
     }

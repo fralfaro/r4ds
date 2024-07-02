@@ -1,11 +1,5 @@
 # Workflow: code style {#sec-workflow-style}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread.
 Even as a very new programmer, it's a good idea to work on your code style.
 Using a consistent style makes it easier for others (including future-you!) to read your work and is particularly important if you need to get help from someone else.
@@ -34,10 +28,7 @@ knitr::include_graphics("screenshots/rstudio-palette.png")
 
 We'll use the tidyverse and nycflights13 packages for code examples in this chapter.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 library(nycflights13)
 ```
@@ -48,7 +39,7 @@ We talked briefly about names in @sec-whats-in-a-name.
 Remember that variable names (those created by `<-` and those created by `mutate()`) should use only lowercase letters, numbers, and `_`.
 Use `_` to separate words within a name.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # Strive for:
@@ -69,9 +60,7 @@ In general, if you have a bunch of variables that are a variation on a theme, yo
 
 Put spaces on either side of mathematical operators apart from `^` (i.e. `+`, `-`, `==`, `<`, ...), and around the assignment operator (`<-`).
 
-```{r}
-#| eval: false
-
+```r
 # Strive for
 z <- (a + b)^2 / d
 
@@ -82,9 +71,7 @@ z<-( a + b ) ^ 2/d
 Don't put spaces inside or outside parentheses for regular function calls.
 Always put a space after a comma, just like in standard English.
 
-```{r}
-#| eval: false
-
+```r
 # Strive for
 mean(x, na.rm = TRUE)
 
@@ -98,7 +85,7 @@ This makes it easier to skim the code.
 
 [^workflow-style-1]: Since `dep_time` is in `HMM` or `HHMM` format, we use integer division (`%/%`) to get hour and remainder (also known as modulo, `%%`) to get minute.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 flights |> 
@@ -114,7 +101,7 @@ flights |>
 `|>` should always have a space before it and should typically be the last thing on a line.
 This makes it easier to add new steps, rearrange existing steps, modify elements within a step, and get a 10,000 ft view by skimming the verbs on the left-hand side.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # Strive for 
@@ -129,7 +116,7 @@ flights|>filter(!is.na(arr_delay), !is.na(tailnum))|>count(dest)
 If the function you're piping into has named arguments (like `mutate()` or `summarize()`), put each argument on a new line.
 If the function doesn't have named arguments (like `select()` or `filter()`), keep everything on one line unless it doesn't fit, in which case you should put each argument on its own line.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # Strive for
@@ -153,7 +140,7 @@ RStudio will automatically put the spaces in for you after a line break followin
 If you're putting each argument on its own line, indent by an extra two spaces.
 Make sure `)` is on its own line, and un-indented to match the horizontal position of the function name.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # Strive for 
@@ -184,7 +171,7 @@ flights|>
 It's OK to shirk some of these rules if your pipeline fits easily on one line.
 But in our collective experience, it's common for short snippets to grow longer, so you'll usually save time in the long run by starting with all the vertical space you need.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 # This fits compactly on one line
@@ -209,7 +196,7 @@ This means breaking up long pipelines if there are intermediate states that can 
 
 The same basic rules that apply to the pipe also apply to ggplot2; just treat `+` the same way as `|>`.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 flights |> 
@@ -224,7 +211,7 @@ flights |>
 
 Again, if you can't fit all of the arguments to a function on to a single line, put each argument on its own line:
 
-```{r}
+```{webr-r}
 #| eval: false
 
 flights |> 
@@ -251,9 +238,7 @@ We wish this transition wasn't necessary, but unfortunately, ggplot2 was written
 
 As your scripts get longer, you can use **sectioning** comments to break up your file into manageable pieces:
 
-```{r}
-#| eval: false
-
+```r
 # Load data --------------------------------------
 
 # Plot data --------------------------------------
@@ -277,7 +262,7 @@ knitr::include_graphics("screenshots/rstudio-nav.png")
 
 1.  Restyle the following pipelines following the guidelines above.
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     flights|>filter(dest=="IAH")|>group_by(year,month,day)|>summarize(n=n(),

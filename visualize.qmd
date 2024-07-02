@@ -1,4 +1,4 @@
-# Visualize {#sec-visualize .unnumbered}
+# 📊 Visualize {#sec-visualize .unnumbered}
 
 ```{r}
 #| echo: false

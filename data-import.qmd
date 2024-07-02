@@ -1,10 +1,5 @@
 # Data import {#sec-data-import}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
 
 ## Introduction
 
@@ -90,10 +85,37 @@ In the `favourite.food` column, there are a bunch of food items, and then the ch
 This is something we can address using the `na` argument.
 By default, `read_csv()` only recognizes empty strings (`""`) in this dataset as `NA`s, and we want it to also recognize the character string `"N/A"`.
 
-```{r}
-#| message: false
-students <- read_csv("data/students.csv", na = c("N/A", ""))
+```{webr-r}
+library(tidyverse)
+library(dplyr)
+library(janitor)
+```
 
+
+
+```{webr-r}
+# See where we are in the file system:
+cat("We're currently at:\n")
+getwd()
+
+# View a list of files for the working directory.
+cat("We have the following files present:\n")
+list.files()
+
+# Specify the data URL using HTTPS
+url <- "https://raw.githubusercontent.com/hadley/r4ds/main/data/students.csv"
+
+# Download the data file from the HTTPS URL and save it as
+# students.csv
+cat("Download the data ...\n")
+download.file(url, "students.csv")
+
+# Check for the data.
+cat("After downloading the data, we now have:\n")
+list.files()
+
+# Read the students data into R
+students <- read.csv("students.csv")
 students
 ```
 
@@ -101,11 +123,11 @@ You might also notice that the `Student ID` and `Full Name` columns are surround
 That's because they contain spaces, breaking R's usual rules for variable names; they're **non-syntactic** names.
 To refer to these variables, you need to surround them with backticks, `` ` ``:
 
-```{r}
-students |> 
+```{webr-r}
+students |>
   rename(
-    student_id = `Student ID`,
-    full_name = `Full Name`
+    student_id = 'Student.ID',
+    full_name = 'Full.Name'
   )
 ```
 
@@ -113,16 +135,14 @@ An alternative approach is to use `janitor::clean_names()` to use some heuristic
 
 [^data-import-1]: The [janitor](http://sfirke.github.io/janitor/) package is not part of the tidyverse, but it offers handy functions for data cleaning and works well within data pipelines that use `|>`.
 
-```{r}
-#| message: false
-
+```{webr-r}
 students |> janitor::clean_names()
 ```
 
 Another common task after reading in data is to consider variable types.
 For example, `meal_plan` is a categorical variable with a known set of possible values, which in R should be represented as a factor:
 
-```{r}
+```{webr-r}
 students |>
   janitor::clean_names() |>
   mutate(meal_plan = factor(meal_plan))
@@ -135,7 +155,7 @@ Before you analyze these data, you'll probably want to fix the `age` column.
 Currently, `age` is a character variable because one of the observations is typed out as `five` instead of a numeric `5`.
 We discuss the details of fixing this issue in @sec-import-spreadsheets.
 
-```{r}
+```{webr-r}
 students <- students |>
   janitor::clean_names() |>
   mutate(
@@ -156,9 +176,7 @@ You will learn more about `if_else()` and logical vectors in @sec-logicals.
 
 There are a couple of other important arguments that we need to mention, and they'll be easier to demonstrate if we first show you a handy trick: `read_csv()` can read text strings that you've created and formatted like a CSV file:
 
-```{r}
-#| message: false
-
+```{webr-r}
 read_csv(
   "a,b,c
   1,2,3
@@ -170,9 +188,7 @@ Usually, `read_csv()` uses the first line of the data for the column names, whic
 But it's not uncommon for a few lines of metadata to be included at the top of the file.
 You can use `skip = n` to skip the first `n` lines or use `comment = "#"` to drop all lines that start with (e.g.) `#`:
 
-```{r}
-#| message: false
-
+```{webr-r}
 read_csv(
   "The first line of metadata
   The second line of metadata
@@ -192,9 +208,7 @@ read_csv(
 In other cases, the data might not have column names.
 You can use `col_names = FALSE` to tell `read_csv()` not to treat the first row as headings and instead label them sequentially from `X1` to `Xn`:
 
-```{r}
-#| message: false
-
+```{webr-r}
 read_csv(
   "1,2,3
   4,5,6",
@@ -204,9 +218,7 @@ read_csv(
 
 Alternatively, you can pass `col_names` a character vector which will be used as the column names:
 
-```{r}
-#| message: false
-
+```{webr-r}
 read_csv(
   "1,2,3
   4,5,6",
@@ -247,18 +259,14 @@ Once you've mastered `read_csv()`, using readr's other functions is straightforw
     To prevent them from causing problems, they need to be surrounded by a quoting character, like `"` or `'`. By default, `read_csv()` assumes that the quoting character will be `"`.
     To read the following text into a data frame, what argument to `read_csv()` do you need to specify?
 
-    ```{r}
-    #| eval: false
-
+    ```{webr-r}
     "x,y\n1,'a,b'"
     ```
 
 5.  Identify what is wrong with each of the following inline CSV files.
     What happens when you run the code?
 
-    ```{r}
-    #| eval: false
-
+    ```{webr-r}
     read_csv("a,b\n1,2,3\n4,5,6")
     read_csv("a,b,c\n1,2\n1,2,3,4")
     read_csv("a,b\n\"1")
@@ -273,7 +281,7 @@ Once you've mastered `read_csv()`, using readr's other functions is straightforw
     c.  Creating a new column called `3`, which is `2` divided by `1`.
     d.  Renaming the columns to `one`, `two`, and `three`.
 
-    ```{r}
+    ```{webr-r}
     annoying <- tibble(
       `1` = 1:10,
       `2` = `1` * 2 + rnorm(length(`1`))
@@ -301,7 +309,7 @@ It then works through the following questions:
 
 You can see that behavior in action in this simple example:
 
-```{r}
+```{webr-r}
 #| message: false
 
 read_csv("
@@ -321,7 +329,7 @@ One of the most common causes for this is a missing value, recorded using someth
 
 Take this simple 1 column CSV file as an example:
 
-```{r}
+```{webr-r}
 simple_csv <- "
   x
   10
@@ -332,7 +340,7 @@ simple_csv <- "
 
 If we read it without any additional arguments, `x` becomes a character column:
 
-```{r}
+```{webr-r}
 #| message: false
 
 read_csv(simple_csv)
@@ -343,16 +351,17 @@ But what happens if you have thousands of rows with only a few missing values re
 One approach is to tell readr that `x` is a numeric column, and then see where it fails.
 You can do that with the `col_types` argument, which takes a named list where the names match the column names in the CSV file:
 
-```{r}
+```{webr-r}
 df <- read_csv(
-  simple_csv, 
+  simple_csv,
   col_types = list(x = col_double())
 )
+df
 ```
 
 Now `read_csv()` reports that there was a problem, and tells us we can find out more with `problems()`:
 
-```{r}
+```{webr-r}
 problems(df)
 ```
 
@@ -360,7 +369,7 @@ This tells us that there was a problem in row 3, col 1 where readr expected a do
 That suggests this dataset uses `.` for missing values.
 So then we set `na = "."`, the automatic guessing succeeds, giving us the numeric column that we want:
 
-```{r}
+```{webr-r}
 #| message: false
 
 read_csv(simple_csv, na = ".")
@@ -379,20 +388,20 @@ readr provides a total of nine column types for you to use:
 
 It's also possible to override the default column by switching from `list()` to `cols()` and specifying `.default`:
 
-```{r}
+```{webr-r}
 another_csv <- "
 x,y,z
 1,2,3"
 
 read_csv(
-  another_csv, 
+  another_csv,
   col_types = cols(.default = col_character())
 )
 ```
 
 Another useful helper is `cols_only()` which will read in only the columns you specify:
 
-```{r}
+```{webr-r}
 read_csv(
   another_csv,
   col_types = cols_only(x = col_character())
@@ -508,9 +517,9 @@ Sometimes you'll need to assemble a tibble "by hand" doing a little data entry i
 There are two useful functions to help you do this which differ in whether you layout the tibble by columns or by rows.
 `tibble()` works by column:
 
-```{r}
+```{webr-r}
 tibble(
-  x = c(1, 2, 5), 
+  x = c(1, 2, 5),
   y = c("h", "m", "g"),
   z = c(0.08, 0.83, 0.60)
 )
@@ -520,7 +529,7 @@ Laying out the data by column can make it hard to see how the rows are related, 
 `tribble()` is customized for data entry in code: column headings start with `~` and entries are separated by commas.
 This makes it possible to lay out small amounts of data in an easy to read form:
 
-```{r}
+```{webr-r}
 tribble(
   ~x, ~y, ~z,
   1, "h", 0.08,

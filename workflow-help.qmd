@@ -1,11 +1,5 @@
 # Workflow: getting help {#sec-workflow-getting-help}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 This book is not an island; there is no single resource that will allow you to master R.
 As you begin to apply the techniques described in this book to your own data, you will soon find questions that we do not answer.
 This section describes a few tips on how to get help and to help you keep learning.
@@ -50,39 +44,31 @@ When creating a reprex by hand, it's easy to accidentally miss something, meanin
 Avoid this problem by using the reprex package, which is installed as part of the tidyverse.
 Let's say you copy this code onto your clipboard (or, on RStudio Server or Cloud, select it):
 
-```{r}
-#| eval: false
-
+```{webr-r}
 y <- 1:4
 mean(y)
 ```
 
 Then call `reprex()`, where the default output is formatted for GitHub:
 
-``` r
+```r
 reprex::reprex()
 ```
 
 A nicely rendered HTML preview will display in RStudio's Viewer (if you're in RStudio) or your default browser otherwise.
 The reprex is automatically copied to your clipboard (on RStudio Server or Cloud, you will need to copy this yourself):
 
-````         
-``` r
+```{webr-r}
 y <- 1:4
 mean(y)
-#> [1] 2.5
 ```
-````
 
 This text is formatted in a special way, called Markdown, which can be pasted to sites like StackOverflow or Github and they will automatically render it to look like code.
 Here's what that Markdown would look like rendered on GitHub:
 
-```{r}
-#| eval: false
-
+```{webr-r}
 y <- 1:4
 mean(y)
-#> [1] 2.5
 ```
 
 Anyone else can copy, paste, and run this immediately.

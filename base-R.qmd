@@ -1,11 +1,5 @@
 # A field guide to base R {#sec-base-r}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 To finish off the programming section, we're going to give you a quick tour of the most important base R functions that we don't otherwise discuss in the book.
@@ -27,10 +21,7 @@ To finish off, we'll briefly discuss two essential plotting functions.
 
 This package focuses on base R so doesn't have any real prerequisites, but we'll load the tidyverse in order to explain some of the differences.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 ```
 
@@ -47,21 +38,21 @@ There are five main types of things that you can subset a vector with, i.e., tha
 1.  **A vector of positive integers**.
     Subsetting with positive integers keeps the elements at those positions:
 
-    ```{r}
+    ```{webr-r}
     x <- c("one", "two", "three", "four", "five")
     x[c(3, 2, 5)]
     ```
 
     By repeating a position, you can actually make a longer output than input, making the term "subsetting" a bit of a misnomer.
 
-    ```{r}
+    ```{webr-r}
     x[c(1, 1, 5, 5, 5, 2)]
     ```
 
 2.  **A vector of negative integers**.
     Negative values drop the elements at the specified positions:
 
-    ```{r}
+    ```{webr-r}
     x[c(-1, -3, -5)]
     ```
 
@@ -69,7 +60,7 @@ There are five main types of things that you can subset a vector with, i.e., tha
     Subsetting with a logical vector keeps all values corresponding to a `TRUE` value.
     This is most often useful in conjunction with the comparison functions.
 
-    ```{r}
+    ```{webr-r}
     x <- c(10, 3, NA, 5, 8, 1, NA)
 
     # All non-missing values of x
@@ -84,7 +75,7 @@ There are five main types of things that you can subset a vector with, i.e., tha
 4.  **A character vector**.
     If you have a named vector, you can subset it with a character vector:
 
-    ```{r}
+    ```{webr-r}
     x <- c(abc = 1, def = 2, xyz = 5)
     x[c("xyz", "def")]
     ```
@@ -104,7 +95,7 @@ For example, `df[rows, ]` and `df[, cols]` select just rows or just columns, usi
 
 Here are a couple of examples:
 
-```{r}
+```{webr-r}
 df <- tibble(
   x = 1:3, 
   y = c("a", "e", "f"), 
@@ -130,7 +121,7 @@ In most places, you can use "tibble" and "data frame" interchangeably, so when w
 If `df` is a `data.frame`, then `df[, cols]` will return a vector if `col` selects a single column and a data frame if it selects more than one column.
 If `df` is a tibble, then `[` will always return a tibble.
 
-```{r}
+```{webr-r}
 df1 <- data.frame(x = 1:3)
 df1[, "x"]
 
@@ -140,7 +131,7 @@ df2[, "x"]
 
 One way to avoid this ambiguity with `data.frame`s is to explicitly specify `drop = FALSE`:
 
-```{r}
+```{webr-r}
 df1[, "x" , drop = FALSE]
 ```
 
@@ -150,7 +141,7 @@ Several dplyr verbs are special cases of `[`:
 
 -   `filter()` is equivalent to subsetting the rows with a logical vector, taking care to exclude missing values:
 
-    ```{r}
+    ```{webr-r}
     #| results: false
 
     df <- tibble(
@@ -168,7 +159,7 @@ Several dplyr verbs are special cases of `[`:
 
 -   `arrange()` is equivalent to subsetting the rows with an integer vector, usually created with `order()`:
 
-    ```{r}
+    ```{webr-r}
     #| results: false
 
     df |> arrange(x, y)
@@ -181,7 +172,7 @@ Several dplyr verbs are special cases of `[`:
 
 -   Both `select()` and `relocate()` are similar to subsetting the columns with a character vector:
 
-    ```{r}
+    ```{webr-r}
     #| results: false
 
     df |> select(x, z)
@@ -194,13 +185,13 @@ Base R also provides a function that combines the features of `filter()` and `se
 
 [^base-r-2]: But it doesn't handle grouped data frames differently and it doesn't support selection helper functions like `starts_with()`.
 
-```{r}
+```{webr-r}
 df |> 
   filter(x > 1) |> 
   select(y, z)
 ```
 
-```{r}
+```{webr-r}
 #| results: false
 
 # same as
@@ -230,7 +221,7 @@ In this section, we'll show you how to use `[[` and `$` to pull columns out of d
 `[[` and `$` can be used to extract columns out of a data frame.
 `[[` can access by position or by name, and `$` is specialized for access by name:
 
-```{r}
+```{webr-r}
 tb <- tibble(
   x = 1:4,
   y = c(10, 4, 1, 21)
@@ -246,7 +237,7 @@ tb$x
 
 They can also be used to create new columns, the base R equivalent of `mutate()`:
 
-```{r}
+```{webr-r}
 tb$z <- tb$x + tb$y
 tb
 ```
@@ -257,7 +248,7 @@ Hadley collected a few examples at <https://gist.github.com/hadley/1986a273e384f
 Using `$` directly is convenient when performing quick summaries.
 For example, if you just want to find the size of the biggest diamond or the possible values of `cut`, there's no need to use `summarize()`:
 
-```{r}
+```{webr-r}
 max(diamonds$carat)
 
 levels(diamonds$cut)
@@ -267,7 +258,7 @@ dplyr also provides an equivalent to `[[`/`$` that we didn't mention in @sec-dat
 `pull()` takes either a variable name or variable position and returns just that column.
 That means we could rewrite the above code to use the pipe:
 
-```{r}
+```{webr-r}
 diamonds |> pull(carat) |> max()
 
 diamonds |> pull(cut) |> levels()
@@ -278,7 +269,7 @@ diamonds |> pull(cut) |> levels()
 There are a couple of important differences between tibbles and base `data.frame`s when it comes to `$`.
 Data frames match the prefix of any variable names (so-called **partial matching**) and don't complain if a column doesn't exist:
 
-```{r}
+```{webr-r}
 df <- data.frame(x1 = 1)
 df$x
 df$z
@@ -286,7 +277,7 @@ df$z
 
 Tibbles are more strict: they only ever match variable names exactly and they will generate a warning if the column you are trying to access doesn't exist:
 
-```{r}
+```{webr-r}
 tb <- tibble(x1 = 1)
 
 tb$x
@@ -300,7 +291,7 @@ For this reason we sometimes joke that tibbles are lazy and surly: they do less 
 `[[` and `$` are also really important for working with lists, and it's important to understand how they differ from `[`.
 Let's illustrate the differences with a list named `l`:
 
-```{r}
+```{webr-r}
 l <- list(
   a = 1:3, 
   b = "a string", 
@@ -312,7 +303,7 @@ l <- list(
 -   `[` extracts a sub-list.
     It doesn't matter how many elements you extract, the result will always be a list.
 
-    ```{r}
+    ```{webr-r}
     str(l[1:2])
 
     str(l[1])
@@ -325,7 +316,7 @@ l <- list(
 -   `[[` and `$` extract a single component from a list.
     They remove a level of hierarchy from the list.
 
-    ```{r}
+    ```{webr-r}
     str(l[[1]])
 
     str(l[[4]])
@@ -382,7 +373,7 @@ In fact, because we haven't used any of `map()`'s more advanced features, you ca
 There's no exact base R equivalent to `across()` but you can get close by using `[` with `lapply()`.
 This works because under the hood, data frames are lists of columns, so calling `lapply()` on a data frame applies the function to each column.
 
-```{r}
+```{webr-r}
 df <- tibble(a = 1, b = 2, c = "a", d = "b", e = 4)
 
 # First find numeric columns
@@ -403,7 +394,7 @@ Base R provides a stricter version of `sapply()` called `vapply()`, short for **
 It takes an additional argument that specifies the expected type, ensuring that simplification occurs the same way regardless of the input.
 For example, we could replace the `sapply()` call above with this `vapply()` where we specify that we expect `is.numeric()` to return a logical vector of length 1:
 
-```{r}
+```{webr-r}
 vapply(df, is.numeric, logical(1))
 ```
 
@@ -411,7 +402,7 @@ The distinction between `sapply()` and `vapply()` is really important when they'
 
 Another important member of the apply family is `tapply()` which computes a single grouped summary:
 
-```{r}
+```{webr-r}
 diamonds |> 
   group_by(cut) |> 
   summarize(price = mean(price))
@@ -432,7 +423,7 @@ This rarely comes up in data science because we usually work with data frames an
 `for` loops are powerful and general tools that are important to learn as you become a more experienced R programmer.
 The basic structure of a `for` loop looks like this:
 
-```{r}
+```{webr-r}
 #| eval: false
 
 for (element in vector) {
@@ -443,7 +434,7 @@ for (element in vector) {
 The most straightforward use of `for` loops is to achieve the same effect as `walk()`: call some function with a side-effect on each element of a list.
 For example, in @sec-save-database instead of using `walk()`:
 
-```{r}
+```{webr-r}
 #| eval: false
 
 paths |> walk(append_file)
@@ -451,7 +442,7 @@ paths |> walk(append_file)
 
 We could have used a `for` loop:
 
-```{r}
+```{webr-r}
 #| eval: false
 
 for (path in paths) {
@@ -461,7 +452,7 @@ for (path in paths) {
 
 Things get a little trickier if you want to save the output of the `for` loop, for example reading all of the excel files in a directory like we did in @sec-iteration:
 
-```{r}
+```{webr-r}
 paths <- dir("data/gapminder", pattern = "\\.xlsx$", full.names = TRUE)
 files <- map(paths, readxl::read_excel)
 ```
@@ -469,19 +460,19 @@ files <- map(paths, readxl::read_excel)
 There are a few different techniques that you can use, but we recommend being explicit about what the output is going to look like upfront.
 In this case, we're going to want a list the same length as `paths`, which we can create with `vector()`:
 
-```{r}
+```{webr-r}
 files <- vector("list", length(paths))
 ```
 
 Then instead of iterating over the elements of `paths`, we'll iterate over their indices, using `seq_along()` to generate one index for each element of paths:
 
-```{r}
+```{webr-r}
 seq_along(paths)
 ```
 
 Using the indices is important because it allows us to link to each position in the input with the corresponding position in the output:
 
-```{r}
+```{webr-r}
 for (i in seq_along(paths)) {
   files[[i]] <- readxl::read_excel(paths[[i]])
 }
@@ -489,13 +480,13 @@ for (i in seq_along(paths)) {
 
 To combine the list of tibbles into a single tibble you can use `do.call()` + `rbind()`:
 
-```{r}
+```{webr-r}
 do.call(rbind, files)
 ```
 
 Rather than making a list and saving the results as we go, a simpler approach is to build up the data frame piece-by-piece:
 
-```{r}
+```{webr-r}
 out <- NULL
 for (path in paths) {
   out <- rbind(out, readxl::read_excel(path))
@@ -513,19 +504,7 @@ However, base R plotting functions can still be useful because they're so concis
 There are two main types of base plot you'll see in the wild: scatterplots and histograms, produced with `plot()` and `hist()` respectively.
 Here's a quick example from the diamonds dataset:
 
-```{r}
-#| dev: png
-#| fig-width: 4
-#| fig-asp: 1
-#| layout-ncol: 2
-#| fig-alt: |
-#|   On the left, histogram of carats of diamonds, ranging from 0 to 5 carats.
-#|   The distribution is unimodal and right-skewed. On the right, scatter 
-#|   plot of price vs. carat of diamonds, showing a positive relationship 
-#|   that fans out as both price and carat increases. The scatter plot 
-#|   shows very few diamonds bigger than 3 carats compared to diamonds between 
-#|   0 to 3 carats.
-
+```{webr-r}
 # Left
 hist(diamonds$carat)
 

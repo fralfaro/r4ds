@@ -1,11 +1,5 @@
 # Workflow: basics {#sec-workflow-basics}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 You now have some experience running R code.
 We didn't give you many details, but you've obviously figured out the basics, or you would've thrown this book away in frustration!
 Frustration is natural when you start programming in R because it is such a stickler for punctuation, and even one character out of place can cause it to complain.
@@ -18,7 +12,7 @@ Before we go any further, let's ensure you've got a solid foundation in running 
 Let's review some basics we've omitted so far in the interest of getting you plotting as quickly as possible.
 You can use R to do basic math calculations:
 
-```{r}
+```{webr-r}
 1 / 200 * 30
 (59 + 73 + 2) / 3
 sin(pi / 2)
@@ -26,7 +20,7 @@ sin(pi / 2)
 
 You can create new objects with the assignment operator `<-`:
 
-```{r}
+```{webr-r}
 x <- 3 * 4
 ```
 
@@ -35,13 +29,13 @@ If you want to view the value, type `x` in the console.
 
 You can **c**ombine multiple elements into a vector with `c()`:
 
-```{r}
+```{webr-r}
 primes <- c(2, 3, 5, 7, 11, 13)
 ```
 
 And basic arithmetic on vectors is applied to every element of of the vector:
 
-```{r}
+```{webr-r}
 primes * 2
 primes - 1
 ```
@@ -69,7 +63,7 @@ We'll sometimes include comments in examples explaining what's happening with th
 
 Comments can be helpful for briefly describing what the following code does.
 
-```{r}
+```{webr-r}
 # create vector of primes
 primes <- c(2, 3, 5, 7, 11, 13)
 
@@ -110,13 +104,13 @@ We'll return to names again when we discuss code style in @sec-workflow-style.
 
 You can inspect an object by typing its name:
 
-```{r}
+```{webr-r}
 x
 ```
 
 Make another assignment:
 
-```{r}
+```{webr-r}
 this_is_a_really_long_name <- 2.5
 ```
 
@@ -131,15 +125,13 @@ Change 2.5 to 3.5 and rerun.
 
 Make yet another assignment:
 
-```{r}
+```{webr-r}
 r_rocks <- 2^3
 ```
 
 Let's try to inspect it:
 
-```{r}
-#| eval: false
-
+```{webr-r}
 r_rock
 #> Error: object 'r_rock' not found
 R_rocks
@@ -174,19 +166,19 @@ Type the name of the first argument, `from`, and set it equal to `1`.
 Then, type the name of the second argument, `to`, and set it equal to `10`.
 Finally, hit return.
 
-```{r}
+```{webr-r}
 seq(from = 1, to = 10)
 ```
 
 We often omit the names of the first several arguments in function calls, so we can rewrite this as follows:
 
-```{r}
+```{webr-r}
 seq(1, 10)
 ```
 
 Type the following code and notice that RStudio provides similar assistance with the paired quotation marks:
 
-```{r}
+```{webr-r}
 x <- "hello world"
 ```
 
@@ -194,7 +186,7 @@ Quotation marks and parentheses must always come in a pair.
 RStudio does its best to help you, but it's still possible to mess up and end up with a mismatch.
 If this happens, R will show you the continuation character "+":
 
-```         
+```
 > x <- "hello
 +
 ```
@@ -207,7 +199,7 @@ Note that the environment tab in the upper right pane displays all of the object
 ```{r}
 #| echo: false
 #| fig-alt: |
-#|   Environment tab of RStudio which shows r_rocks, this_is_a_really_long_name, 
+#|   Environment tab of RStudio which shows r_rocks, this_is_a_really_long_name,
 #|   x, and y in the Global Environment.
 
 knitr::include_graphics("screenshots/rstudio-env.png")
@@ -217,7 +209,7 @@ knitr::include_graphics("screenshots/rstudio-env.png")
 
 1.  Why does this code not work?
 
-    ```{r}
+    ```{webr-r}
     #| error: true
 
     my_variable <- 10
@@ -229,12 +221,12 @@ knitr::include_graphics("screenshots/rstudio-env.png")
 
 2.  Tweak each of the following R commands so that they run correctly:
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     libary(todyverse)
 
-    ggplot(dTA = mpg) + 
+    ggplot(dTA = mpg) +
       geom_point(maping = aes(x = displ y = hwy)) +
       geom_smooth(method = "lm)
     ```
@@ -248,7 +240,7 @@ knitr::include_graphics("screenshots/rstudio-env.png")
     Which of the two plots is saved as `mpg-plot.png`?
     Why?
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     my_bar_plot <- ggplot(mpg, aes(x = class)) +

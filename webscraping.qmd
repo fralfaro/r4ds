@@ -1,11 +1,5 @@
 # Web scraping {#sec-scraping}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 This chapter introduces you to the basics of web scraping with [rvest](https://rvest.tidyverse.org).
@@ -28,9 +22,6 @@ rvest is a member of the tidyverse, but is not a core member so you'll need to l
 We'll also load the full tidyverse since we'll find it generally useful working with the data we've scraped.
 
 ```{r}
-#| label: setup
-#| message: false
-
 library(tidyverse)
 library(rvest)
 ```
@@ -170,7 +161,12 @@ html
 rvest also includes a function that lets you write HTML inline.
 We'll use this a bunch in this chapter as we teach how the various rvest functions work with simple examples.
 
-```{r}
+```{webr-r}
+library(tidyverse)
+library(rvest)
+```
+
+```{webr-r}
 html <- minimal_html("
   <p>This is a paragraph</p>
   <ul>
@@ -201,7 +197,7 @@ We'll come back to CSS selectors in more detail in @sec-css-selectors, but lucki
 
 Let's try out these selectors with a simple example:
 
-```{r}
+```{webr-r}
 html <- minimal_html("
   <h1>This is a heading</h1>
   <p id='first'>This is a paragraph</p>
@@ -211,7 +207,7 @@ html <- minimal_html("
 
 Use `html_elements()` to find all elements that match the selector:
 
-```{r}
+```{webr-r}
 html |> html_elements("p")
 html |> html_elements(".important")
 html |> html_elements("#first")
@@ -220,7 +216,7 @@ html |> html_elements("#first")
 Another important function is `html_element()` which always returns the same number of outputs as inputs.
 If you apply it to a whole document it'll give you the first match:
 
-```{r}
+```{webr-r}
 html |> html_element("p")
 ```
 
@@ -228,7 +224,7 @@ There's an important difference between `html_element()` and `html_elements()` w
 `html_elements()` returns a vector of length 0, where `html_element()` returns a missing value.
 This will be important shortly.
 
-```{r}
+```{webr-r}
 html |> html_elements("b")
 html |> html_element("b")
 ```
@@ -239,7 +235,7 @@ In most cases, you'll use `html_elements()` and `html_element()` together, typic
 Let's see this in action using a simple example.
 Here we have an unordered list (`<ul>)` where each list item (`<li>`) contains some information about four characters from StarWars:
 
-```{r}
+```{webr-r}
 html <- minimal_html("
   <ul>
     <li><b>C-3PO</b> is a <i>droid</i> that weighs <span class='weight'>167 kg</span></li>
@@ -252,14 +248,14 @@ html <- minimal_html("
 
 We can use `html_elements()` to make a vector where each element corresponds to a different character:
 
-```{r}
+```{webr-r}
 characters <- html |> html_elements("li")
 characters
 ```
 
 To extract the name of each character, we use `html_element()`, because when applied to the output of `html_elements()` it's guaranteed to return one response per element:
 
-```{r}
+```{webr-r}
 characters |> html_element("b")
 ```
 
@@ -267,14 +263,14 @@ The distinction between `html_element()` and `html_elements()` isn't important f
 We want to get one weight for each character, even if there's no weight `<span>`.
 That's what `html_element()` does:
 
-```{r}
+```{webr-r}
 characters |> html_element(".weight")
 ```
 
 `html_elements()` finds all weight `<span>`s that are children of `characters`.
 There's only three of these, so we lose the connection between names and weights:
 
-```{r}
+```{webr-r}
 characters |> html_elements(".weight")
 ```
 
@@ -286,7 +282,7 @@ Now that you've selected the elements of interest, you'll need to extract the da
 
 [^webscraping-6]: rvest also provides `html_text()` but you should almost always use `html_text2()` since it does a better job of converting nested HTML to text.
 
-```{r}
+```{webr-r}
 characters |> 
   html_element("b") |> 
   html_text2()
@@ -300,7 +296,7 @@ Note that any escapes will be automatically handled; you'll only ever see HTML e
 
 `html_attr()` extracts data from attributes:
 
-```{r}
+```{webr-r}
 html <- minimal_html("
   <p><a href='https://en.wikipedia.org/wiki/Cat'>cats</a></p>
   <p><a href='https://en.wikipedia.org/wiki/Dog'>dogs</a></p>
@@ -322,7 +318,7 @@ It's usually straightforward to recognize a table in your browser: it'll have a 
 HTML tables are built up from four main elements: `<table>`, `<tr>` (table row), `<th>` (table heading), and `<td>` (table data).
 Here's a simple HTML table with two columns and three rows:
 
-```{r}
+```{webr-r}
 html <- minimal_html("
   <table class='mytable'>
     <tr><th>x</th>   <th>y</th></tr>
@@ -337,7 +333,7 @@ rvest provides a function that knows how to read this sort of data: `html_table(
 It returns a list containing one tibble for each table found on the page.
 Use `html_element()` to identify the table you want to extract:
 
-```{r}
+```{webr-r}
 html |> 
   html_element(".mytable") |> 
   html_table()
@@ -400,7 +396,7 @@ You should be able to see that each movie has a shared structure that looks like
 Our goal is to turn this data into a 7 row data frame with variables `title`, `year`, `director`, and `intro`.
 We'll start by reading the HTML and extracting all the `<section>` elements:
 
-```{r}
+```{webr-r}
 url <- "https://rvest.tidyverse.org/articles/starwars.html"
 html <- read_html(url)
 
@@ -412,7 +408,7 @@ This retrieves seven elements matching the seven movies found on that page, sugg
 Extracting the individual elements is straightforward since the data is always found in the text.
 It's just a matter of finding the right selector:
 
-```{r}
+```{webr-r}
 section |> html_element("h2") |> html_text2()
 
 section |> html_element(".director") |> html_text2()
@@ -420,7 +416,7 @@ section |> html_element(".director") |> html_text2()
 
 Once we've done that for each component, we can wrap all the results up into a tibble:
 
-```{r}
+```{webr-r}
 tibble(
   title = section |> 
     html_element("h2") |> 

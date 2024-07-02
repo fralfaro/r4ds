@@ -75,7 +75,7 @@ This means we want to avoid `read_csv()` and instead use the `arrow::open_datase
 
 ```{r open-dataset}
 seattle_csv <- open_dataset(
-  sources = "data/seattle-library-checkouts.csv", 
+  sources = "data/seattle-library-checkouts.csv",
   col_types = schema(ISBN = string()),
   format = "csv"
 )
@@ -107,10 +107,10 @@ For example, this code tells us the total number of checkouts per year:
 
 ```{r}
 #| cache: true
-seattle_csv |> 
-  group_by(CheckoutYear) |> 
-  summarise(Checkouts = sum(Checkouts)) |> 
-  arrange(CheckoutYear) |> 
+seattle_csv |>
+  group_by(CheckoutYear) |>
+  summarise(Checkouts = sum(Checkouts)) |>
+  arrange(CheckoutYear) |>
   collect()
 ```
 
@@ -205,7 +205,7 @@ Now we can write our dplyr pipeline.
 For example, we could count the total number of books checked out in each month for the last five years:
 
 ```{r books-by-year-query}
-query <- seattle_pq |> 
+query <- seattle_pq |>
   filter(CheckoutYear >= 2018, MaterialType == "BOOK") |>
   group_by(CheckoutYear, CheckoutMonth) |>
   summarize(TotalCheckouts = sum(Checkouts)) |>

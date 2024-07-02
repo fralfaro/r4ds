@@ -1,11 +1,5 @@
 # Workflow: scripts and projects {#sec-workflow-scripts-projects}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 This chapter will introduce you to two essential tools for organizing your code: scripts and projects.
 
 ## Scripts
@@ -44,11 +38,11 @@ For example, take the code below.
 library(dplyr)
 library(nycflights13)
 
-not_cancelled <- flights |> 
+not_cancelled <- flights |>
   filter(!is.na(dep_delay)█, !is.na(arr_delay))
 
-not_cancelled |> 
-  group_by(year, month, day) |> 
+not_cancelled |>
+  group_by(year, month, day) |>
   summarize(mean = mean(dep_delay))
 ```
 
@@ -75,7 +69,7 @@ In the script editor, RStudio will highlight syntax errors with a red squiggly l
 #| echo: false
 #| out-width: ~
 #| fig-alt: |
-#|   Script editor with the script x y <- 10. A red X indicates that there is 
+#|   Script editor with the script x y <- 10. A red X indicates that there is
 #|   syntax error. The syntax error is also highlighted with a red squiggly line.
 
 knitr::include_graphics("screenshots/rstudio-diagnostic.png")
@@ -87,9 +81,9 @@ Hover over the cross to see what the problem is:
 #| echo: false
 #| out-width: ~
 #| fig-alt: |
-#|   Script editor with the script x y <- 10. A red X indicates that there is 
+#|   Script editor with the script x y <- 10. A red X indicates that there is
 #|   syntax error. The syntax error is also highlighted with a red squiggly line.
-#|   Hovering over the X shows a text box with the text unexpected token y and 
+#|   Hovering over the X shows a text box with the text unexpected token y and
 #|   unexpected token <-.
 
 knitr::include_graphics("screenshots/rstudio-diagnostic-tip.png")
@@ -101,9 +95,9 @@ RStudio will also let you know about potential problems:
 #| echo: false
 #| out-width: ~
 #| fig-alt: |
-#|   Script editor with the script 3 == NA. A yellow exclamation mark 
-#|   indicates that there may be a potential problem. Hovering over the 
-#|   exclamation mark shows a text box with the text use is.na to check 
+#|   Script editor with the script 3 == NA. A yellow exclamation mark
+#|   indicates that there may be a potential problem. Hovering over the
+#|   exclamation mark shows a text box with the text use is.na to check
 #|   whether expression evaluates to NA.
 
 knitr::include_graphics("screenshots/rstudio-diagnostic-warn.png")
@@ -123,7 +117,7 @@ Three important principles for file naming are as follows:
 
 For example, suppose you have the following files in a project folder.
 
-```         
+```
 alternative model.R
 code for exploratory analysis.r
 finalreport.qmd
@@ -141,7 +135,7 @@ There are a variety of problems here: it's hard to find which file to run first,
 
 Here's a better way of naming and organizing the same set of files:
 
-```         
+```
 01-load-data.R
 02-exploratory-analysis.R
 03-model-approach-1.R
@@ -188,11 +182,11 @@ There's nothing worse than discovering three months after the fact that you've o
 #| label: fig-blank-slate
 #| echo: false
 #| fig-cap: |
-#|   Copy these options in your RStudio options to always start your 
+#|   Copy these options in your RStudio options to always start your
 #|   RStudio session with a clean slate.
 #| fig-alt: |
-#|   RStudio Global Options window where the option Restore .RData into workspace 
-#|   at startup is not checked. Also, the option Save workspace to .RData 
+#|   RStudio Global Options window where the option Restore .RData into workspace
+#|   at startup is not checked. Also, the option Save workspace to .RData
 #|   on exit is set to Never.
 #| out-width: ~
 
@@ -226,7 +220,7 @@ RStudio shows your current working directory at the top of the console:
 ```{r}
 #| echo: false
 #| fig-alt: |
-#|   The Console tab shows the current working directory as 
+#|   The Console tab shows the current working directory as
 #|   ~/Documents/r4ds.
 #| out-width: ~
 knitr::include_graphics("screenshots/rstudio-wd.png")
@@ -266,14 +260,14 @@ Click File \> New Project, then follow the steps shown in @fig-new-project.
 ```{r}
 #| label: fig-new-project
 #| echo: false
-#| fig-cap: | 
+#| fig-cap: |
 #|   To create new project: (top) first click New Directory, then (middle)
 #|   click New Project, then (bottom) fill in the directory (project) name,
 #|   choose a good subdirectory for its home and click Create Project.
 #| fig-alt: |
-#|   Three screenshots of the New Project menu. In the first screenshot, 
-#|   the Create Project window is shown and New Directory is selected. 
-#|   In the second screenshot, the Project Type window is shown and 
+#|   Three screenshots of the New Project menu. In the first screenshot,
+#|   the Create Project window is shown and New Directory is selected.
+#|   In the second screenshot, the Project Type window is shown and
 #|   Empty Project is selected. In the third screenshot, the Create New
 #|   Project  window is shown and the directory name is given as r4ds and
 #|   the project is being created as subdirectory of the Desktop.

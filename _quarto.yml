@@ -1,14 +1,20 @@
 project:
   type: book
   output-dir: docs
+  resources:
+    - data/* # Include all files
 
 book:
   title: "R for Data Science (2e)"
+  description: |
+     🖥️ Interactive Version with <a href="https://github.com/coatless/quarto-webr">quarto-webr</a>
+     by <a href="https://fralfaro.github.io/portfolio/">Francisco Alfaro</a>
   reader-mode: true
-
+  author: "Hadley Wickham, Mine Çetinkaya-Rundel, Garrett Grolemund"
+  date: "07/11/2023"
   page-footer:
     left: |
-      R for Data Science (2e) was written by Hadley Wickham, Mine
+      R for Data Science (2e) was written by Hadley Wickham, <br> Mine
       Çetinkaya-Rundel, and Garrett Grolemund.
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
@@ -74,13 +80,18 @@ book:
 format:
   html:
     theme:
-      - cosmo
-      - r4ds.scss
+      light: [ flatly, r4ds/custom2.scss ]
+      dark: [ flatly, r4ds/custom2.scss, stylesheets/theme-dark.scss ]
     code-link: true
 
     author-meta: "Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund"
     include-in-header: "plausible.html"
     callout-appearance: simple
 
+
+
 editor: visual
+
+filters:
+  - webr
 

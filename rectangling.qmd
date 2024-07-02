@@ -1,10 +1,5 @@
 # Hierarchical data {#sec-rectangling}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
 
 ## Introduction
 
@@ -21,10 +16,7 @@ We'll finish off by talking about JSON, the most frequent source of hierarchical
 In this chapter, we'll use many functions from tidyr, a core member of the tidyverse.
 We'll also use repurrrsive to provide some interesting datasets for rectangling practice, and we'll finish by using jsonlite to read JSON files into R lists.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 library(repurrrsive)
 library(jsonlite)
@@ -36,14 +28,14 @@ So far you've worked with data frames that contain simple vectors like integers,
 These vectors are simple because they're homogeneous: every element is of the same data type.
 If you want to store elements of different types in the same vector, you'll need a **list**, which you create with `list()`:
 
-```{r}
+```{webr-r}
 x1 <- list(1:4, "a", TRUE)
 x1
 ```
 
 It's often convenient to name the components, or **children**, of a list, which you can do in the same way as naming the columns of a tibble:
 
-```{r}
+```{webr-r}
 x2 <- list(a = 1:2, b = 1:3, c = 1:4)
 x2
 ```
@@ -51,7 +43,7 @@ x2
 Even for these very simple lists, printing takes up quite a lot of space.
 A useful alternative is `str()`, which generates a compact display of the **str**ucture, de-emphasizing the contents:
 
-```{r}
+```{webr-r}
 str(x1)
 str(x2)
 ```
@@ -64,14 +56,14 @@ It displays the name, if present, then an abbreviation of the type, then the fir
 Lists can contain any type of object, including other lists.
 This makes them suitable for representing hierarchical (tree-like) structures:
 
-```{r}
+```{webr-r}
 x3 <- list(list(1, 2), list(3, 4))
 str(x3)
 ```
 
 This is notably different to `c()`, which generates a flat vector:
 
-```{r}
+```{webr-r}
 c(c(1, 2), c(3, 4))
 
 x4 <- c(list(1, 2), list(3, 4))
@@ -80,7 +72,7 @@ str(x4)
 
 As lists get more complex, `str()` gets more useful, as it lets you see the hierarchy at a glance:
 
-```{r}
+```{webr-r}
 x5 <- list(1, list(2, list(3, list(4, list(5)))))
 str(x5)
 ```
@@ -142,7 +134,7 @@ In particular, list-columns are used a lot in the [tidymodels](https://www.tidym
 
 Here's a simple example of a list-column:
 
-```{r}
+```{webr-r}
 df <- tibble(
   x = 1:2, 
   y = c("a", "b"),
@@ -153,7 +145,7 @@ df
 
 There's nothing special about lists in a tibble; they behave like any other column:
 
-```{r}
+```{webr-r}
 df |> 
   filter(x == 1)
 ```
@@ -170,13 +162,13 @@ If you want to see it, you'll need to pull out just the one list-column and appl
 
 It's possible to put a list in a column of a `data.frame`, but it's a lot fiddlier because `data.frame()` treats a list as a list of columns:
 
-```{r}
+```{webr-r}
 data.frame(x = list(1:3, 3:5))
 ```
 
 You can force `data.frame()` to treat a list as a list of rows by wrapping it in list `I()`, but the result doesn't print particularly well:
 
-```{r}
+```{webr-r}
 data.frame(
   x = I(list(1:2, 3:5)), 
   y = c("1, 2", "3, 4, 5")
@@ -196,7 +188,7 @@ When the children are **named**, they tend to have the same names in every row.
 For example, in `df1`, every element of list-column `y` has two elements named `a` and `b`.
 Named list-columns naturally unnest into columns: each named element becomes a new named column.
 
-```{r}
+```{webr-r}
 df1 <- tribble(
   ~x, ~y,
   1, list(a = 11, b = 12),
@@ -209,7 +201,7 @@ When the children are **unnamed**, the number of elements tends to vary from row
 For example, in `df2`, the elements of list-column `y` are unnamed and vary in length from one to three.
 Unnamed list-columns naturally unnest into rows: you'll get one row for each child.
 
-```{r}
+```{webr-r}
 
 df2 <- tribble(
   ~x, ~y,
@@ -226,7 +218,7 @@ The following sections explain how they work.
 
 When each row has the same number of elements with the same names, like `df1`, it's natural to put each component into its own column with `unnest_wider()`:
 
-```{r}
+```{webr-r}
 df1 |> 
   unnest_wider(y)
 ```
@@ -234,7 +226,7 @@ df1 |>
 By default, the names of the new columns come exclusively from the names of the list elements, but you can use the `names_sep` argument to request that they combine the column name and the element name.
 This is useful for disambiguating repeated names.
 
-```{r}
+```{webr-r}
 df1 |> 
   unnest_wider(y, names_sep = "_")
 ```
@@ -243,7 +235,7 @@ df1 |>
 
 When each row contains an unnamed list, it's most natural to put each element into its own row with `unnest_longer()`:
 
-```{r}
+```{webr-r}
 df2 |> 
   unnest_longer(y)
 ```
@@ -251,7 +243,7 @@ df2 |>
 Note how `x` is duplicated for each element inside of `y`: we get one row of output for each element inside the list-column.
 But what happens if one of the elements is empty, as in the following example?
 
-```{r}
+```{webr-r}
 df6 <- tribble(
   ~x, ~y,
   "a", list(1, 2),
@@ -269,7 +261,7 @@ If you want to preserve that row, adding `NA` in `y`, set `keep_empty = TRUE`.
 What happens if you unnest a list-column that contains different types of vector?
 For example, take the following dataset where the list-column `y` contains two numbers, a character, and a logical, which can't normally be mixed in a single column.
 
-```{r}
+```{webr-r}
 df4 <- tribble(
   ~x, ~y,
   "a", list(1),
@@ -281,7 +273,7 @@ df4 <- tribble(
 So what happens?
 How does `unnest_longer()` produce five rows while keeping everything in `y`?
 
-```{r}
+```{webr-r}
 df4 |> 
   unnest_longer(y)
 ```
@@ -318,7 +310,7 @@ These functions are good to know about as you might encounter them when reading 
     How can you preserve the relationship between `x` and `y`?
     (Hint: carefully read the docs).
 
-    ```{r}
+    ```{webr-r}
     df4 <- tribble(
       ~x, ~y, ~z,
       "a", list("y-a-1", "y-a-2"), list("z-a-1", "z-a-2"),
@@ -339,7 +331,7 @@ This is a list that contains data about a collection of GitHub repositories retr
 `gh_repos` is a list, but our tools work with list-columns, so we'll begin by putting it into a tibble.
 We call this column `json` for reasons we'll get to later.
 
-```{r}
+```{webr-r}
 repos <- tibble(json = gh_repos)
 repos
 ```
@@ -348,7 +340,7 @@ This tibble contains 6 rows, one row for each child of `gh_repos`.
 Each row contains an unnamed list with either 26 or 30 rows.
 Since these are unnamed, we'll start with `unnest_longer()` to put each child in its own row:
 
-```{r}
+```{webr-r}
 repos |> 
   unnest_longer(json)
 ```
@@ -356,7 +348,7 @@ repos |>
 At first glance, it might seem like we haven't improved the situation: while we have more rows (176 instead of 6) each element of `json` is still a list.
 However, there's an important difference: now each element is a **named** list so we can use `unnest_wider()` to put each element into its own column:
 
-```{r}
+```{webr-r}
 repos |> 
   unnest_longer(json) |> 
   unnest_wider(json) 
@@ -365,7 +357,7 @@ repos |>
 This has worked but the result is a little overwhelming: there are so many columns that tibble doesn't even print all of them!
 We can see them all with `names()`; and here we look at the first 10:
 
-```{r}
+```{webr-r}
 repos |> 
   unnest_longer(json) |> 
   unnest_wider(json) |> 
@@ -375,7 +367,7 @@ repos |>
 
 Let's pull out a few that look interesting:
 
-```{r}
+```{webr-r}
 repos |> 
   unnest_longer(json) |> 
   unnest_wider(json) |> 
@@ -386,7 +378,7 @@ You can use this to work back to understand how `gh_repos` was structured: each 
 
 `owner` is another list-column, and since it contains a named list, we can use `unnest_wider()` to get at the values:
 
-```{r}
+```{webr-r}
 #| error: true
 repos |> 
   unnest_longer(json) |> 
@@ -398,7 +390,7 @@ repos |>
 Uh oh, this list column also contains an `id` column and we can't have two `id` columns in the same data frame.
 As suggested, lets use `names_sep` to resolve the problem:
 
-```{r}
+```{webr-r}
 repos |> 
   unnest_longer(json) |> 
   unnest_wider(json) |> 
@@ -414,21 +406,21 @@ Nested data is sometimes used to represent data that we'd usually spread across 
 For example, take `got_chars` which contains data about characters that appear in the Game of Thrones books and TV series.
 Like `gh_repos` it's a list, so we start by turning it into a list-column of a tibble:
 
-```{r}
+```{webr-r}
 chars <- tibble(json = got_chars)
 chars
 ```
 
 The `json` column contains named elements, so we'll start by widening it:
 
-```{r}
+```{webr-r}
 chars |> 
   unnest_wider(json)
 ```
 
 And selecting a few columns to make it easier to read:
 
-```{r}
+```{webr-r}
 characters <- chars |> 
   unnest_wider(json) |> 
   select(id, name, gender, culture, born, died, alive)
@@ -437,7 +429,7 @@ characters
 
 This dataset contains also many list-columns:
 
-```{r}
+```{webr-r}
 chars |> 
   unnest_wider(json) |> 
   select(id, where(is.list))
@@ -446,7 +438,7 @@ chars |>
 Let's explore the `titles` column.
 It's an unnamed list-column, so we'll unnest it into rows:
 
-```{r}
+```{webr-r}
 chars |> 
   unnest_wider(json) |> 
   select(id, titles) |> 
@@ -456,7 +448,7 @@ chars |>
 You might expect to see this data in its own table because it would be easy to join to the characters data as needed.
 Let's do that, which requires little cleaning: removing the rows containing empty strings and renaming `titles` to `title` since each row now only contains a single title.
 
-```{r}
+```{webr-r}
 titles <- chars |> 
   unnest_wider(json) |> 
   select(id, titles) |> 
@@ -473,13 +465,13 @@ You could imagine creating a table like this for each of the list-columns, then 
 We'll finish off these case studies with a list-column that's very deeply nested and requires repeated rounds of `unnest_wider()` and `unnest_longer()` to unravel: `gmaps_cities`.
 This is a two column tibble containing five city names and the results of using Google's [geocoding API](https://developers.google.com/maps/documentation/geocoding) to determine their location:
 
-```{r}
+```{webr-r}
 gmaps_cities
 ```
 
 `json` is a list-column with internal names, so we start with an `unnest_wider()`:
 
-```{r}
+```{webr-r}
 gmaps_cities |> 
   unnest_wider(json)
 ```
@@ -488,7 +480,7 @@ This gives us the `status` and the `results`.
 We'll drop the status column since they're all `OK`; in a real analysis, you'd also want to capture all the rows where `status != "OK"` and figure out what went wrong.
 `results` is an unnamed list, with either one or two elements (we'll see why shortly) so we'll unnest it into rows:
 
-```{r}
+```{webr-r}
 gmaps_cities |> 
   unnest_wider(json) |> 
   select(-status) |> 
@@ -497,7 +489,7 @@ gmaps_cities |>
 
 Now `results` is a named list, so we'll use `unnest_wider()`:
 
-```{r}
+```{webr-r}
 locations <- gmaps_cities |> 
   unnest_wider(json) |> 
   select(-status) |> 
@@ -511,7 +503,7 @@ Now we can see why two cities got two results: Washington matched both Washingto
 There are a few different places we could go from here.
 We might want to determine the exact location of the match, which is stored in the `geometry` list-column:
 
-```{r}
+```{webr-r}
 locations |> 
   select(city, formatted_address, geometry) |> 
   unnest_wider(geometry)
@@ -520,7 +512,7 @@ locations |>
 That gives us new `bounds` (a rectangular region) and `location` (a point).
 We can unnest `location` to see the latitude (`lat`) and longitude (`lng`):
 
-```{r}
+```{webr-r}
 locations |> 
   select(city, formatted_address, geometry) |> 
   unnest_wider(geometry) |> 
@@ -529,7 +521,7 @@ locations |>
 
 Extracting the bounds requires a few more steps:
 
-```{r}
+```{webr-r}
 locations |> 
   select(city, formatted_address, geometry) |> 
   unnest_wider(geometry) |> 
@@ -540,7 +532,7 @@ locations |>
 
 We then rename `southwest` and `northeast` (the corners of the rectangle) so we can use `names_sep` to create short but evocative names:
 
-```{r}
+```{webr-r}
 locations |> 
   select(city, formatted_address, geometry) |> 
   unnest_wider(geometry) |> 
@@ -554,7 +546,7 @@ Note how we unnest two columns simultaneously by supplying a vector of variable 
 
 Once you've discovered the path to get to the components you're interested in, you can extract them directly using another tidyr function, `hoist()`:
 
-```{r}
+```{webr-r}
 #| results: false
 locations |> 
   select(city, formatted_address, geometry) |> 
@@ -584,7 +576,7 @@ If these case studies have whetted your appetite for more real-life rectangling,
     Why is it interesting?
     Why does it work for `got_chars` but might not work in general?
 
-    ```{r}
+    ```{webr-r}
     #| results: false
     tibble(json = got_chars) |> 
       unnest_wider(json) |> 
@@ -642,7 +634,7 @@ We'll use only two jsonlite functions: `read_json()` and `parse_json()`.
 In real life, you'll use `read_json()` to read a JSON file from disk.
 For example, the repurrsive package also provides the source for `gh_user` as a JSON file and you can read it with `read_json()`:
 
-```{r}
+```{webr-r}
 # A path to a json file inside the package:
 gh_users_json()
 
@@ -656,7 +648,7 @@ identical(gh_users, gh_users2)
 In this book, we'll also use `parse_json()`, since it takes a string containing JSON, which makes it good for generating simple examples.
 To get started, here are three simple JSON datasets, starting with a number, then putting a few numbers in an array, then putting that array in an object:
 
-```{r}
+```{webr-r}
 str(parse_json('1'))
 str(parse_json('[1, 2, 3]'))
 str(parse_json('{"x": [1, 2, 3]}'))
@@ -671,7 +663,7 @@ This often works well, particularly in simple cases, but we think you're better 
 In most cases, JSON files contain a single top-level array, because they're designed to provide data about multiple "things", e.g., multiple pages, or multiple records, or multiple results.
 In this case, you'll start your rectangling with `tibble(json)` so that each element becomes a row:
 
-```{r}
+```{webr-r}
 json <- '[
   {"name": "John", "age": 34},
   {"name": "Susan", "age": 27}
@@ -686,7 +678,7 @@ df |>
 In rarer cases, the JSON file consists of a single top-level JSON object, representing one "thing".
 In this case, you'll need to kick off the rectangling process by wrapping it in a list, before you put it in a tibble.
 
-```{r}
+```{webr-r}
 json <- '{
   "status": "OK", 
   "results": [
@@ -706,7 +698,7 @@ df |>
 
 Alternatively, you can reach inside the parsed JSON and start with the bit that you actually care about:
 
-```{r}
+```{webr-r}
 df <- tibble(results = parse_json(json)$results)
 df |> 
   unnest_wider(results)
@@ -717,7 +709,7 @@ df |>
 1.  Rectangle the `df_col` and `df_row` below.
     They represent the two ways of encoding a data frame in JSON.
 
-    ```{r}
+    ```{webr-r}
     json_col <- parse_json('
       {
         "x": ["a", "x", "z"],

@@ -1,11 +1,5 @@
 # Regular expressions {#sec-regular-expressions}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 In @sec-strings, you learned a whole bunch of useful functions for working with strings.
@@ -23,7 +17,7 @@ We'll finish with a survey of other places in the tidyverse and base R where you
 
 In this chapter, we'll use regular expression functions from stringr and tidyr, both core members of the tidyverse, as well as data from the babynames package.
 
-```{r}
+```{webr-r}
 #| label: setup
 #| message: false
 
@@ -45,7 +39,7 @@ When this is supplied, `str_view()` will show only the elements of the string ve
 
 The simplest patterns consist of letters and numbers which match those characters exactly:
 
-```{r}
+```{webr-r}
 str_view(fruit, "berry")
 ```
 
@@ -58,13 +52,13 @@ will match any character[^regexps-3], so `"a."` will match any string that conta
 
 [^regexps-3]: Well, any character apart from `\n`.
 
-```{r}
+```{webr-r}
 str_view(c("a", "ab", "ae", "bd", "ea", "eab"), "a.")
 ```
 
 Or we could find all the fruits that contain an "a", followed by three letters, followed by an "e":
 
-```{r}
+```{webr-r}
 str_view(fruit, "a...e")
 ```
 
@@ -74,7 +68,7 @@ str_view(fruit, "a...e")
 -   `+` lets a pattern repeat (i.e. it matches at least once)
 -   `*` lets a pattern be optional or repeat (i.e. it matches any number of times, including 0).
 
-```{r}
+```{webr-r}
 # ab? matches an "a", optionally followed by a "b".
 str_view(c("a", "ab", "abb"), "ab?")
 
@@ -89,7 +83,7 @@ str_view(c("a", "ab", "abb"), "ab*")
 You can also invert the match by starting with `^`: `[^abcd]` matches anything **except** "a", "b", "c", or "d".
 We can use this idea to find the words containing an "x" surrounded by vowels, or a "y" surrounded by consonants:
 
-```{r}
+```{webr-r}
 str_view(words, "[aeiou]x[aeiou]")
 str_view(words, "[^aeiou]y[^aeiou]")
 ```
@@ -97,7 +91,7 @@ str_view(words, "[^aeiou]y[^aeiou]")
 You can use **alternation**, `|`, to pick between one or more alternative patterns.
 For example, the following patterns look for fruits containing "apple", "melon", or "nut", or a repeated vowel.
 
-```{r}
+```{webr-r}
 str_view(fruit, "apple|melon|nut")
 str_view(fruit, "aa|ee|ii|oo|uu")
 ```
@@ -115,14 +109,14 @@ In the following section, you'll learn how to detect the presence or absence of 
 
 `str_detect()` returns a logical vector that is `TRUE` if the pattern matches an element of the character vector and `FALSE` otherwise:
 
-```{r}
+```{webr-r}
 str_detect(c("a", "b", "c"), "[aeiou]")
 ```
 
 Since `str_detect()` returns a logical vector of the same length as the initial vector, it pairs well with `filter()`.
 For example, this code finds all the most popular names containing a lower-case "x":
 
-```{r}
+```{webr-r}
 babynames |> 
   filter(str_detect(name, "x")) |> 
   count(name, wt = n, sort = TRUE)
@@ -134,13 +128,8 @@ It looks like they've radically increased in popularity lately!
 
 [^regexps-4]: This gives us the proportion of **names** that contain an "x"; if you wanted the proportion of babies with a name containing an x, you'd need to perform a weighted mean.
 
-```{r}
-#| fig-alt: |
-#|   A time series showing the proportion of baby names that contain the letter x. 
-#|   The proportion declines gradually from 8 per 1000 in 1880 to 4 per 1000 in 
-#|   1980, then increases rapidly to 16 per 1000 in 2019.
-
-babynames |> 
+```{webr-r}
+babynames |>
   group_by(year) |> 
   summarize(prop_x = mean(str_detect(name, "x"))) |> 
   ggplot(aes(x = year, y = prop_x)) + 
@@ -155,7 +144,7 @@ There are two functions that are closely related to `str_detect()`: `str_subset(
 
 The next step up in complexity from `str_detect()` is `str_count()`: rather than a true or false, it tells you how many matches there are in each string.
 
-```{r}
+```{webr-r}
 x <- c("apple", "banana", "pear")
 str_count(x, "p")
 ```
@@ -164,7 +153,7 @@ Note that each match starts at the end of the previous match, i.e. regex matches
 For example, in `"abababa"`, how many times will the pattern `"aba"` match?
 Regular expressions say two, not three:
 
-```{r}
+```{webr-r}
 str_count("abababa", "aba")
 str_view("abababa", "aba")
 ```
@@ -172,7 +161,7 @@ str_view("abababa", "aba")
 It's natural to use `str_count()` with `mutate()`.
 The following example uses `str_count()` with character classes to count the number of vowels and consonants in each name.
 
-```{r}
+```{webr-r}
 babynames |> 
   count(name) |> 
   mutate(
@@ -194,7 +183,7 @@ If you get stuck trying one approach, it can often be useful to switch gears and
 
 In this case, since we're applying two functions to the name, I think it's easier to transform it first:
 
-```{r}
+```{webr-r}
 babynames |> 
   count(name) |> 
   mutate(
@@ -209,14 +198,14 @@ babynames |>
 As well as detecting and counting matches, we can also modify them with `str_replace()` and `str_replace_all()`.
 `str_replace()` replaces the first match, and as the name suggests, `str_replace_all()` replaces all matches.
 
-```{r}
+```{webr-r}
 x <- c("apple", "pear", "banana")
 str_replace_all(x, "[aeiou]", "-")
 ```
 
 `str_remove()` and `str_remove_all()` are handy shortcuts for `str_replace(x, pattern, "")`:
 
-```{r}
+```{webr-r}
 x <- c("apple", "pear", "banana")
 str_remove_all(x, "[aeiou]")
 ```
@@ -234,7 +223,7 @@ Here we have some data derived from `babynames` where we have the name, gender, 
 
 [^regexps-5]: We wish we could reassure you that you'd never see something this weird in real life, but unfortunately over the course of your career you're likely to see much weirder!
 
-```{r}
+```{webr-r}
 df <- tribble(
   ~str,
   "<Sheryl>-F_34",
@@ -250,7 +239,7 @@ df <- tribble(
 To extract this data using `separate_wider_regex()` we just need to construct a sequence of regular expressions that match each piece.
 If we want the contents of that piece to appear in the output, we give it a name:
 
-```{r}
+```{webr-r}
 df |> 
   separate_wider_regex(
     str,
@@ -304,7 +293,7 @@ So to create the regular expression `\.` we need the string `"\\."`, as the foll
 
 [^regexps-6]: The complete set of metacharacters is `.^$\|*+?{}[]()`
 
-```{r}
+```{webr-r}
 # To create the regular expression \., we need to use \\.
 dot <- "\\."
 
@@ -323,7 +312,7 @@ Well, you need to escape it, creating the regular expression `\\`.
 To create that regular expression, you need to use a string, which also needs to escape `\`.
 That means to match a literal `\` you need to write `"\\\\"` --- you need four backslashes to match one!
 
-```{r}
+```{webr-r}
 x <- "a\\b"
 str_view(x)
 str_view(x, "\\\\")
@@ -332,14 +321,14 @@ str_view(x, "\\\\")
 Alternatively, you might find it easier to use the raw strings you learned about in @sec-raw-strings).
 That lets you avoid one layer of escaping:
 
-```{r}
+```{webr-r}
 str_view(x, r"{\\}")
 ```
 
 If you're trying to match a literal `.`, `$`, `|`, `*`, `+`, `?`, `{`, `}`, `(`, `)`, there's an alternative to using a backslash escape: you can use a character class: `[.]`, `[$]`, `[|]`, ...
 all match the literal values.
 
-```{r}
+```{webr-r}
 str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
 str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 ```
@@ -349,7 +338,7 @@ str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
 By default, regular expressions will match any part of a string.
 If you want to match at the start or end you need to **anchor** the regular expression using `^` to match the start or `$` to match the end:
 
-```{r}
+```{webr-r}
 str_view(fruit, "^a")
 str_view(fruit, "a$")
 ```
@@ -358,7 +347,7 @@ It's tempting to think that `$` should match the start of a string, because that
 
 To force a regular expression to match only the full string, anchor it with both `^` and `$`:
 
-```{r}
+```{webr-r}
 str_view(fruit, "apple")
 str_view(fruit, "^apple$")
 ```
@@ -367,7 +356,7 @@ You can also match the boundary between words (i.e. the start or end of a word) 
 This can be particularly useful when using RStudio's find and replace tool.
 For example, if to find all uses of `sum()`, you can search for `\bsum\b` to avoid matching `summarize`, `summary`, `rowsum` and so on:
 
-```{r}
+```{webr-r}
 x <- c("summary(x)", "summarize(df)", "rowsum(x)", "sum(x)")
 str_view(x, "sum")
 str_view(x, "\\bsum\\b")
@@ -375,13 +364,13 @@ str_view(x, "\\bsum\\b")
 
 When used alone, anchors will produce a zero-width match:
 
-```{r}
+```{webr-r}
 str_view("abc", c("$", "^", "\\b"))
 ```
 
 This helps you understand what happens when you replace a standalone anchor:
 
-```{r}
+```{webr-r}
 str_replace_all("abc", c("$", "^", "\\b"), "--")
 ```
 
@@ -396,7 +385,7 @@ Apart from `^` there are two other characters that have special meaning inside o
 
 Here are few examples:
 
-```{r}
+```{webr-r}
 x <- "abcd ABCD 12345 -!@#%."
 str_view(x, "[abc]+")
 str_view(x, "[a-z]+")
@@ -423,7 +412,7 @@ There are three other particularly useful pairs[^regexps-7]:
 
 The following code demonstrates the six shortcuts with a selection of letters, numbers, and punctuation characters.
 
-```{r}
+```{webr-r}
 x <- "abcd ABCD 12345 -!@#%."
 str_view(x, "\\d+")
 str_view(x, "\\D+")
@@ -465,20 +454,20 @@ As well as overriding operator precedence, parentheses have another important ef
 The first way to use a capturing group is to refer back to it within a match with **back reference**: `\1` refers to the match contained in the first parenthesis, `\2` in the second parenthesis, and so on.
 For example, the following pattern finds all fruits that have a repeated pair of letters:
 
-```{r}
+```{webr-r}
 str_view(fruit, "(..)\\1")
 ```
 
 And this one finds all words that start and end with the same pair of letters:
 
-```{r}
+```{webr-r}
 str_view(words, "^(..).*\\1$")
 ```
 
 You can also use back references in `str_replace()`.
 For example, this code switches the order of the second and third words in `sentences`:
 
-```{r}
+```{webr-r}
 sentences |> 
   str_replace("(\\w+) (\\w+) (\\w+)", "\\1 \\3 \\2") |> 
   str_view()
@@ -489,7 +478,7 @@ But `str_match()` returns a matrix, so it's not particularly easy to work with[^
 
 [^regexps-8]: Mostly because we never discuss matrices in this book!
 
-```{r}
+```{webr-r}
 sentences |> 
   str_match("the (\\w+) (\\w+)") |> 
   head()
@@ -497,7 +486,7 @@ sentences |>
 
 You could convert to a tibble and name the columns:
 
-```{r}
+```{webr-r}
 sentences |> 
   str_match("the (\\w+) (\\w+)") |> 
   as_tibble(.name_repair = "minimal") |> 
@@ -510,7 +499,7 @@ Indeed, behind the scenes, `separate_wider_regex()` converts your vector of patt
 Occasionally, you'll want to use parentheses without creating matching groups.
 You can create a non-capturing group with `(?:)`.
 
-```{r}
+```{webr-r}
 x <- c("a gray cat", "a grey dog")
 str_match(x, "gr(e|a)y")
 str_match(x, "gr(?:e|a)y")
@@ -563,7 +552,7 @@ These settings are often called **flags** in other programming languages.
 In stringr, you can use these by wrapping the pattern in a call to `regex()`.
 The most useful flag is probably `ignore_case = TRUE` because it allows characters to match either their uppercase or lowercase forms:
 
-```{r}
+```{webr-r}
 bananas <- c("banana", "Banana", "BANANA")
 str_view(bananas, "banana")
 str_view(bananas, regex("banana", ignore_case = TRUE))
@@ -573,7 +562,7 @@ If you're doing a lot of work with multiline strings (i.e. strings that contain 
 
 -   `dotall = TRUE` lets `.` match everything, including `\n`:
 
-    ```{r}
+    ```{webr-r}
     x <- "Line 1\nLine 2\nLine 3"
     str_view(x, ".Line")
     str_view(x, regex(".Line", dotall = TRUE))
@@ -581,7 +570,7 @@ If you're doing a lot of work with multiline strings (i.e. strings that contain 
 
 -   `multiline = TRUE` makes `^` and `$` match the start and end of each line rather than the start and end of the complete string:
 
-    ```{r}
+    ```{webr-r}
     x <- "Line 1\nLine 2\nLine 3"
     str_view(x, "^Line")
     str_view(x, regex("^Line", multiline = TRUE))
@@ -593,7 +582,7 @@ This allows you to use comments and whitespace to make complex regular expressio
 
 [^regexps-9]: `comments = TRUE` is particularly effective in combination with a raw string, as we use here.
 
-```{r}
+```{webr-r}
 phone <- regex(
   r"(
     \(?     # optional opening parens
@@ -616,13 +605,13 @@ If you're using comments and want to match a space, newline, or `#`, you'll need
 
 You can opt-out of the regular expression rules by using `fixed()`:
 
-```{r}
+```{webr-r}
 str_view(c("", "a", "."), fixed("."))
 ```
 
 `fixed()` also gives you the ability to ignore case:
 
-```{r}
+```{webr-r}
 str_view("x X", "X")
 str_view("x X", fixed("X", ignore_case = TRUE))
 ```
@@ -630,7 +619,7 @@ str_view("x X", fixed("X", ignore_case = TRUE))
 If you're working with non-English text, you will probably want `coll()` instead of `fixed()`, as it implements the full rules for capitalization as used by the `locale` you specify.
 See @sec-other-languages for more details on locales.
 
-```{r}
+```{webr-r}
 str_view("i İ ı I", fixed("İ", ignore_case = TRUE))
 str_view("i İ ı I", coll("İ", ignore_case = TRUE, locale = "tr"))
 ```
@@ -649,34 +638,34 @@ We'll discuss three general techniques:
 First, let's find all sentences that start with "The".
 Using the `^` anchor alone is not enough:
 
-```{r}
+```{webr-r}
 str_view(sentences, "^The")
 ```
 
 Because that pattern also matches sentences starting with words like `They` or `These`.
 We need to make sure that the "e" is the last letter in the word, which we can do by adding a word boundary:
 
-```{r}
+```{webr-r}
 str_view(sentences, "^The\\b")
 ```
 
 What about finding all sentences that begin with a pronoun?
 
-```{r}
+```{webr-r}
 str_view(sentences, "^She|He|It|They\\b")
 ```
 
 A quick inspection of the results shows that we're getting some spurious matches.
 That's because we've forgotten to use parentheses:
 
-```{r}
+```{webr-r}
 str_view(sentences, "^(She|He|It|They)\\b")
 ```
 
 You might wonder how you might spot such a mistake if it didn't occur in the first few matches.
 A good technique is to create a few positive and negative matches and use them to test that your pattern works as expected:
 
-```{r}
+```{webr-r}
 pos <- c("He is a boy", "She had a good time")
 neg <- c("Shells come from the sea", "Hadley said 'It's a great day'")
 
@@ -693,14 +682,14 @@ Nevertheless, they're still useful: as you work on the problem you can slowly ac
 Imagine we want to find words that only contain consonants.
 One technique is to create a character class that contains all letters except for the vowels (`[^aeiou]`), then allow that to match any number of letters (`[^aeiou]+`), then force it to match the whole string by anchoring to the beginning and the end (`^[^aeiou]+$`):
 
-```{r}
+```{webr-r}
 str_view(words, "^[^aeiou]+$")
 ```
 
 But you can make this problem a bit easier by flipping the problem around.
 Instead of looking for words that contain only consonants, we could look for words that don't contain any vowels:
 
-```{r}
+```{webr-r}
 str_view(words[!str_detect(words, "[aeiou]")])
 ```
 
@@ -708,13 +697,13 @@ This is a useful technique whenever you're dealing with logical combinations, pa
 For example, imagine if you want to find all words that contain "a" and "b".
 There's no "and" operator built in to regular expressions so we have to tackle it by looking for all words that contain an "a" followed by a "b", or a "b" followed by an "a":
 
-```{r}
+```{webr-r}
 str_view(words, "a.*b|b.*a")
 ```
 
 It's simpler to combine the results of two calls to `str_detect()`:
 
-```{r}
+```{webr-r}
 words[str_detect(words, "a") & str_detect(words, "b")]
 ```
 
@@ -722,7 +711,7 @@ What if we wanted to see if there was a word that contains all vowels?
 If we did it with patterns we'd need to generate 5!
 (120) different patterns:
 
-```{r}
+```{webr-r}
 #| results: false
 words[str_detect(words, "a.*e.*i.*o.*u")]
 # ...
@@ -731,7 +720,7 @@ words[str_detect(words, "u.*o.*i.*e.*a")]
 
 It's much simpler to combine five calls to `str_detect()`:
 
-```{r}
+```{webr-r}
 words[
   str_detect(words, "a") &
   str_detect(words, "e") &
@@ -748,34 +737,34 @@ In general, if you get stuck trying to create a single regexp that solves your p
 What if we wanted to find all `sentences` that mention a color?
 The basic idea is simple: we just combine alternation with word boundaries.
 
-```{r}
+```{webr-r}
 str_view(sentences, "\\b(red|green|blue)\\b")
 ```
 
 But as the number of colors grows, it would quickly get tedious to construct this pattern by hand.
 Wouldn't it be nice if we could store the colors in a vector?
 
-```{r}
+```{webr-r}
 rgb <- c("red", "green", "blue")
 ```
 
 Well, we can!
 We'd just need to create the pattern from the vector using `str_c()` and `str_flatten()`:
 
-```{r}
+```{webr-r}
 str_c("\\b(", str_flatten(rgb, "|"), ")\\b")
 ```
 
 We could make this pattern more comprehensive if we had a good list of colors.
 One place we could start from is the list of built-in colors that R can use for plots:
 
-```{r}
+```{webr-r}
 str_view(colors())
 ```
 
 But lets first eliminate the numbered variants:
 
-```{r}
+```{webr-r}
 cols <- colors()
 cols <- cols[!str_detect(cols, "\\d")]
 str_view(cols)
@@ -784,7 +773,7 @@ str_view(cols)
 Then we can turn this into one giant pattern.
 We won't show the pattern here because it's huge, but you can see it working:
 
-```{r}
+```{webr-r}
 pattern <- str_c("\\b(", str_flatten(cols, "|"), ")\\b")
 str_view(sentences, pattern)
 ```
@@ -833,14 +822,14 @@ There are three other particularly useful places where you might want to use a r
 `apropos(pattern)` searches all objects available from the global environment that match the given pattern.
 This is useful if you can't quite remember the name of a function:
 
-```{r}
+```{webr-r}
 apropos("replace")
 ```
 
 `list.files(path, pattern)` lists all files in `path` that match a regular expression `pattern`.
 For example, you can find all the R Markdown files in the current directory with:
 
-```{r}
+```{webr-r}
 head(list.files(pattern = "\\.Rmd$"))
 ```
 

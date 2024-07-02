@@ -1,4 +1,4 @@
-# Whole game {#sec-whole-game-intro .unnumbered}
+#  🎮 Whole game {#sec-whole-game-intro .unnumbered}
 
 ```{r}
 #| results: "asis"

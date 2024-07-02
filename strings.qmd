@@ -1,11 +1,5 @@
 # Strings {#sec-strings}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 So far, you've used a bunch of strings without learning much about the details.
@@ -23,7 +17,7 @@ We'll keep working with strings in the next chapter, where you'll learn more abo
 In this chapter, we'll use functions from the stringr package, which is part of the core tidyverse.
 We'll also use the babynames data since it provides some fun strings to manipulate.
 
-```{r}
+```{webr-r}
 #| label: setup
 #| message: false
 
@@ -51,7 +45,7 @@ We've created strings in passing earlier in the book but didn't discuss the deta
 Firstly, you can create a string using either single quotes (`'`) or double quotes (`"`).
 There's no difference in behavior between the two, so in the interests of consistency, the [tidyverse style guide](https://style.tidyverse.org/syntax.html#character-vectors) recommends using `"`, unless the string contains multiple `"`.
 
-```{r}
+```{webr-r}
 string1 <- "This is a string"
 string2 <- 'If I want to include a "quote" inside a string, I use single quotes'
 ```
@@ -71,14 +65,14 @@ If this happens to you and you can't figure out which quote to close, press Esca
 
 To include a literal single or double quote in a string, you can use `\` to "escape" it:
 
-```{r}
+```{webr-r}
 double_quote <- "\"" # or '"'
 single_quote <- '\'' # or "'"
 ```
 
 So if you want to include a literal backslash in your string, you'll need to escape it: `"\\"`:
 
-```{r}
+```{webr-r}
 backslash <- "\\"
 ```
 
@@ -87,7 +81,7 @@ To see the raw contents of the string, use `str_view()`[^strings-1]:
 
 [^strings-1]: Or use the base R function `writeLines()`.
 
-```{r}
+```{webr-r}
 x <- c(single_quote, double_quote, backslash)
 x
 
@@ -99,7 +93,7 @@ str_view(x)
 Creating a string with multiple quotes or backslashes gets confusing quickly.
 To illustrate the problem, let's create a string that contains the contents of the code block where we define the `double_quote` and `single_quote` variables:
 
-```{r}
+```{webr-r}
 tricky <- "double_quote <- \"\\\"\" # or '\"'
 single_quote <- '\\'' # or \"'\""
 str_view(tricky)
@@ -110,7 +104,7 @@ That's a lot of backslashes!
 
 [^strings-2]: Available in R 4.0.0 and above.
 
-```{r}
+```{webr-r}
 tricky <- r"(double_quote <- "\"" # or '"'
 single_quote <- '\'' # or "'")"
 str_view(tricky)
@@ -123,7 +117,7 @@ But if your string contains `)"` you can instead use `r"[]"` or `r"{}"`, and if 
 
 As well as `\"`, `\'`, and `\\`, there are a handful of other special characters that may come in handy. The most common are `\n`, a new line, and `\t`, tab. You'll also sometimes see strings containing Unicode escapes that start with `\u` or `\U`. This is a way of writing non-English characters that work on all systems. You can see the complete list of other special characters in `?Quotes`.
 
-```{r}
+```{webr-r}
 x <- c("one\ntwo", "one\ttwo", "\u00b5", "\U0001f604")
 x
 str_view(x)
@@ -150,7 +144,7 @@ One of the challenges of working with text is that there's a variety of ways tha
     How does `str_view()` display it?
     Can you do a little googling to figure out what this special character is?
 
-    ```{r}
+    ```{webr-r}
     x <- "This\u00a0is\u00a0tricky"
     ```
 
@@ -166,7 +160,7 @@ That naturally raises the question of what stringr functions you might use with 
 
 `str_c()` takes any number of vectors as arguments and returns a character vector:
 
-```{r}
+```{webr-r}
 str_c("x", "y")
 str_c("x", "y", "z")
 str_c("Hello ", c("John", "Susan"))
@@ -174,7 +168,7 @@ str_c("Hello ", c("John", "Susan"))
 
 `str_c()` is very similar to the base `paste0()`, but is designed to be used with `mutate()` by obeying the usual tidyverse rules for recycling and propagating missing values:
 
-```{r}
+```{webr-r}
 df <- tibble(name = c("Flora", "David", "Terra", NA))
 df |> mutate(greeting = str_c("Hi ", name, "!"))
 ```
@@ -182,7 +176,7 @@ df |> mutate(greeting = str_c("Hi ", name, "!"))
 If you want missing values to display in another way, use `coalesce()` to replace them.
 Depending on what you want, you might use it either inside or outside of `str_c()`:
 
-```{r}
+```{webr-r}
 df |> 
   mutate(
     greeting1 = str_c("Hi ", coalesce(name, "you"), "!"),
@@ -196,7 +190,7 @@ If you are mixing many fixed and variable strings with `str_c()`, you'll notice 
 
 [^strings-4]: If you're not using stringr, you can also access it directly with `glue::glue()`.
 
-```{r}
+```{webr-r}
 df |> mutate(greeting = str_glue("Hi {name}!"))
 ```
 
@@ -206,7 +200,7 @@ You also might wonder what happens if you need to include a regular `{` or `}` i
 You're on the right track if you guess you'll need to escape it somehow.
 The trick is that glue uses a slightly different escaping technique: instead of prefixing with special character like `\`, you double up the special characters:
 
-```{r}
+```{webr-r}
 df |> mutate(greeting = str_glue("{{Hi {name}!}}"))
 ```
 
@@ -218,7 +212,7 @@ That's the job of `str_flatten()`[^strings-5]: it takes a character vector and c
 
 [^strings-5]: The base R equivalent is `paste()` used with the `collapse` argument.
 
-```{r}
+```{webr-r}
 str_flatten(c("x", "y", "z"))
 str_flatten(c("x", "y", "z"), ", ")
 str_flatten(c("x", "y", "z"), ", ", last = ", and ")
@@ -226,7 +220,7 @@ str_flatten(c("x", "y", "z"), ", ", last = ", and ")
 
 This makes it work well with `summarize()`:
 
-```{r}
+```{webr-r}
 df <- tribble(
   ~ name, ~ fruit,
   "Carmen", "banana",
@@ -245,7 +239,7 @@ df |>
 
 1.  Compare and contrast the results of `paste0()` with `str_c()` for the following inputs:
 
-    ```{r}
+    ```{webr-r}
     #| eval: false
 
     str_c("hi ", NA)
@@ -290,7 +284,7 @@ We'll finish off by discussing the tools that the `wider` functions give you to 
 Separating a string into rows tends to be most useful when the number of components varies from row to row.
 The most common case is requiring `separate_longer_delim()` to split based on a delimiter:
 
-```{r}
+```{webr-r}
 df1 <- tibble(x = c("a,b,c", "d,e", "f"))
 df1 |> 
   separate_longer_delim(x, delim = ",")
@@ -298,7 +292,7 @@ df1 |>
 
 It's rarer to see `separate_longer_position()` in the wild, but some older datasets do use a very compact format where each character is used to record a value:
 
-```{r}
+```{webr-r}
 df2 <- tibble(x = c("1211", "131", "21"))
 df2 |> 
   separate_longer_position(x, width = 1)
@@ -311,7 +305,7 @@ They are slightly more complicated than their `longer` equivalents because you n
 For example, in this following dataset, `x` is made up of a code, an edition number, and a year, separated by `"."`.
 To use `separate_wider_delim()`, we supply the delimiter and the names in two arguments:
 
-```{r}
+```{webr-r}
 df3 <- tibble(x = c("a10.1.2022", "b10.2.2011", "e15.1.2015"))
 df3 |> 
   separate_wider_delim(
@@ -323,7 +317,7 @@ df3 |>
 
 If a specific piece is not useful you can use an `NA` name to omit it from the results:
 
-```{r}
+```{webr-r}
 df3 |> 
   separate_wider_delim(
     x,
@@ -336,7 +330,7 @@ df3 |>
 So you give it a named integer vector, where the name gives the name of the new column, and the value is the number of characters it occupies.
 You can omit values from the output by not naming them:
 
-```{r}
+```{webr-r}
 df4 <- tibble(x = c("202215TX", "202122LA", "202325CA")) 
 df4 |> 
   separate_wider_position(
@@ -353,7 +347,7 @@ There are two possible problems, too few or too many pieces, so `separate_wider_
 
 [^strings-6]: The same principles apply to `separate_wider_position()` and `separate_wider_regex()`.
 
-```{r}
+```{webr-r}
 #| error: true
 df <- tibble(x = c("1-1-1", "1-1-2", "1-3", "1-3-2", "1"))
 
@@ -368,7 +362,7 @@ df |>
 You'll notice that we get an error, but the error gives us some suggestions on how you might proceed.
 Let's start by debugging the problem:
 
-```{r}
+```{webr-r}
 debug <- df |> 
   separate_wider_delim(
     x,
@@ -382,7 +376,7 @@ debug
 When you use the debug mode, you get three extra columns added to the output: `x_ok`, `x_pieces`, and `x_remainder` (if you separate a variable with a different name, you'll get a different prefix).
 Here, `x_ok` lets you quickly find the inputs that failed:
 
-```{r}
+```{webr-r}
 debug |> filter(!x_ok)
 ```
 
@@ -395,7 +389,7 @@ In that case, fix the problem upstream and make sure to remove `too_few = "debug
 In other cases, you may want to fill in the missing pieces with `NA`s and move on.
 That's the job of `too_few = "align_start"` and `too_few = "align_end"` which allow you to control where the `NA`s should go:
 
-```{r}
+```{webr-r}
 df |> 
   separate_wider_delim(
     x,
@@ -407,7 +401,7 @@ df |>
 
 The same principles apply if you have too many pieces:
 
-```{r}
+```{webr-r}
 #| error: true
 df <- tibble(x = c("1-1-1", "1-1-2", "1-3-5-6", "1-3-2", "1-3-5-7-9"))
 
@@ -421,7 +415,7 @@ df |>
 
 But now, when we debug the result, you can see the purpose of `x_remainder`:
 
-```{r}
+```{webr-r}
 debug <- df |> 
   separate_wider_delim(
     x,
@@ -434,7 +428,7 @@ debug |> filter(!x_ok)
 
 You have a slightly different set of options for handling too many pieces: you can either silently "drop" any additional pieces or "merge" them all into the final column:
 
-```{r}
+```{webr-r}
 df |> 
   separate_wider_delim(
     x,
@@ -462,7 +456,7 @@ You'll learn how to find the length of a string, extract substrings, and handle 
 
 `str_length()` tells you the number of letters in the string:
 
-```{r}
+```{webr-r}
 str_length(c("a", "R for data science", NA))
 ```
 
@@ -470,7 +464,7 @@ You could use this with `count()` to find the distribution of lengths of US baby
 
 [^strings-7]: Looking at these entries, we'd guess that the babynames data drops spaces or hyphens and truncates after 15 letters.
 
-```{r}
+```{webr-r}
 babynames |>
   count(length = str_length(name), wt = n)
 
@@ -484,26 +478,26 @@ babynames |>
 You can extract parts of a string using `str_sub(string, start, end)`, where `start` and `end` are the positions where the substring should start and end.
 The `start` and `end` arguments are inclusive, so the length of the returned string will be `end - start + 1`:
 
-```{r}
+```{webr-r}
 x <- c("Apple", "Banana", "Pear")
 str_sub(x, 1, 3)
 ```
 
 You can use negative values to count back from the end of the string: -1 is the last character, -2 is the second to last character, etc.
 
-```{r}
+```{webr-r}
 str_sub(x, -3, -1)
 ```
 
 Note that `str_sub()` won't fail if the string is too short: it will just return as much as possible:
 
-```{r}
+```{webr-r}
 str_sub("a", 1, 5)
 ```
 
 We could use `str_sub()` with `mutate()` to find the first and last letter of each name:
 
-```{r}
+```{webr-r}
 babynames |> 
   mutate(
     first = str_sub(name, 1, 1),
@@ -531,7 +525,7 @@ When working with non-English text, the first challenge is often the **encoding*
 To understand what's going on, we need to dive into how computers represent strings.
 In R, we can get at the underlying representation of a string using `charToRaw()`:
 
-```{r}
+```{webr-r}
 charToRaw("Hadley")
 ```
 
@@ -554,7 +548,7 @@ For example here are two inline CSVs with unusual encodings[^strings-8]:
 
 [^strings-8]: Here I'm using the special `\x` to encode binary data directly into a string.
 
-```{r}
+```{webr-r}
 #| eval: false
 
 x1 <- "text\nEl Ni\xf1o was particularly bad this year"
@@ -568,7 +562,7 @@ read_csv(x2)$text
 
 To read these correctly, you specify the encoding via the `locale` argument:
 
-```{r}
+```{webr-r}
 #| eval: false
 read_csv(x1, locale = locale(encoding = "Latin1"))$text
 #> [1] "El Niño was particularly bad this year"
@@ -591,21 +585,21 @@ If you'd like to learn more, we recommend reading the detailed explanation at <h
 Working in languages with accents poses a significant challenge when determining the position of letters (e.g., with `str_length()` and `str_sub()`) as accented letters might be encoded as a single individual character (e.g., ü) or as two characters by combining an unaccented letter (e.g., u) with a diacritic mark (e.g., ¨).
 For example, this code shows two ways of representing ü that look identical:
 
-```{r}
+```{webr-r}
 u <- c("\u00fc", "u\u0308")
 str_view(u)
 ```
 
 But both strings differ in length, and their first characters are different:
 
-```{r}
+```{webr-r}
 str_length(u)
 str_sub(u, 1, 1)
 ```
 
 Finally, note that a comparison of these strings with `==` interprets these strings as different, while the handy `str_equal()` function in stringr recognizes that both have the same appearance:
 
-```{r}
+```{webr-r}
 u[[1]] == u[[2]]
 
 str_equal(u[[1]], u[[2]])
@@ -628,7 +622,7 @@ The rules for changing cases differ among languages.
 For example, Turkish has two i's: with and without a dot.
 Since they're two distinct letters, they're capitalized differently:
 
-```{r}
+```{webr-r}
 str_to_upper(c("i", "ı"))
 str_to_upper(c("i", "ı"), locale = "tr")
 ```
@@ -638,7 +632,7 @@ Here's an example: in Czech, "ch" is a compound letter that appears after `h` in
 
 [^strings-9]: Sorting in languages that don't have an alphabet, like Chinese, is more complicated still.
 
-```{r}
+```{webr-r}
 str_sort(c("a", "c", "ch", "h", "z"))
 str_sort(c("a", "c", "ch", "h", "z"), locale = "cs")
 ```

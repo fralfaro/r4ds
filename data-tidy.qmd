@@ -1,11 +1,5 @@
 # Data tidying {#sec-data-tidy}
 
-```{r}
-#| echo: false
-
-source("_common.R")
-```
-
 ## Introduction
 
 > "Happy families are all alike; every unhappy family is unhappy in its own way."\
@@ -27,10 +21,7 @@ Pivoting allows you to change the form of your data without changing any of the 
 In this chapter, we'll focus on tidyr, a package that provides a bunch of tools to help tidy up your messy datasets.
 tidyr is a member of the core tidyverse.
 
-```{r}
-#| label: setup
-#| message: false
-
+```{webr-r}
 library(tidyverse)
 ```
 
@@ -42,7 +33,7 @@ You can represent the same underlying data in multiple ways.
 The example below shows the same data organized in three different ways.
 Each dataset shows the same values of four variables: *country*, *year*, *population*, and number of documented *cases* of TB (tuberculosis), but each dataset organizes the values in a different way.
 
-```{r}
+```{webr-r}
 table1
 
 table2
@@ -89,21 +80,7 @@ There are two main advantages:
 dplyr, ggplot2, and all the other packages in the tidyverse are designed to work with tidy data.
 Here are a few small examples showing how you might work with `table1`.
 
-```{r}
-#| fig-width: 5
-#| fig-alt: |
-#|   This figure shows the number of cases in 1999 and 2000 for 
-#|   Afghanistan, Brazil, and China, with year on the x-axis and number 
-#|   of cases on the y-axis. Each point on the plot represents the number 
-#|   of cases in a given country in a given year. The points for each
-#|   country are differentiated from others by color and shape and connected
-#|   with a line, resulting in three, non-parallel, non-intersecting lines.
-#|   The numbers of cases in China are highest for both 1999 and 2000, with
-#|   values above 200,000 for both years. The number of cases in Brazil is
-#|   approximately 40,000 in 1999 and approximately 75,000 in 2000. The
-#|   numbers of cases in Afghanistan are lowest for both 1999 and 2000, with
-#|   values that appear to be very close to 0 on this scale.
-
+```{webr-r}
 # Compute rate per 10,000
 table1 |>
   mutate(rate = cases / population * 10000)
@@ -158,7 +135,7 @@ Let's dive into some examples.
 
 The `billboard` dataset records the billboard rank of songs in the year 2000:
 
-```{r}
+```{webr-r}
 billboard
 ```
 
@@ -171,8 +148,8 @@ Here, the column names are one variable (the `week`) and the cell values are ano
 
 To tidy this data, we'll use `pivot_longer()`:
 
-```{r, R.options=list(pillar.print_min = 10)}
-billboard |> 
+```{webr-r}
+billboard |>
   pivot_longer(
     cols = starts_with("wk"), 
     names_to = "week", 
@@ -196,7 +173,7 @@ These `NA`s don't really represent unknown observations; they were forced to exi
 
 [^data-tidy-2]: We'll come back to this idea in @sec-missing-values.
 
-```{r}
+```{webr-r}
 billboard |> 
   pivot_longer(
     cols = starts_with("wk"), 
@@ -214,7 +191,7 @@ We can't tell from this data, but you might guess that additional columns `wk77`
 This data is now tidy, but we could make future computation a bit easier by converting values of `week` from character strings to numbers using `mutate()` and `readr::parse_number()`.
 `parse_number()` is a handy function that will extract the first number from a string, ignoring all other text.
 
-```{r}
+```{webr-r}
 billboard_longer <- billboard |> 
   pivot_longer(
     cols = starts_with("wk"), 
@@ -232,18 +209,8 @@ Now that we have all the week numbers in one variable and all the rank values in
 The code is shown below and the result is in @fig-billboard-ranks.
 We can see that very few songs stay in the top 100 for more than 20 weeks.
 
-```{r}
-#| label: fig-billboard-ranks
-#| fig-cap: |
-#|   A line plot showing how the rank of a song changes over time.
-#| fig-alt: |
-#|   A line plot with week on the x-axis and rank on the y-axis, where
-#|   each line represents a song. Most songs appear to start at a high rank,
-#|   rapidly accelerate to a low rank, and then decay again. There are
-#|   surprisingly few tracks in the region when week is >20 and rank is
-#|   >50.
-
-billboard_longer |> 
+```{webr-r}
+billboard_longer |>
   ggplot(aes(x = week, y = rank, group = track)) + 
   geom_line(alpha = 0.25) + 
   scale_y_reverse()
@@ -256,7 +223,7 @@ Let's start with a very simple dataset to make it easier to see what's happening
 Suppose we have three patients with `id`s A, B, and C, and we take two blood pressure measurements on each patient.
 We'll create the data with `tribble()`, a handy function for constructing small tibbles by hand:
 
-```{r}
+```{webr-r}
 df <- tribble(
   ~id,  ~bp1, ~bp2,
    "A",  100,  120,
@@ -268,7 +235,7 @@ df <- tribble(
 We want our new dataset to have three variables: `id` (already exists), `measurement` (the column names), and `value` (the cell values).
 To achieve this, we need to pivot `df` longer:
 
-```{r}
+```{webr-r}
 df |> 
   pivot_longer(
     cols = bp1:bp2,
@@ -339,7 +306,7 @@ knitr::include_graphics("diagrams/tidy-data/cell-values.png", dpi = 270)
 A more challenging situation occurs when you have multiple pieces of information crammed into the column names, and you would like to store these in separate new variables.
 For example, take the `who2` dataset, the source of `table1` and friends that you saw above:
 
-```{r}
+```{webr-r}
 who2
 ```
 
@@ -353,7 +320,7 @@ The first piece, `sp`/`rel`/`ep`, describes the method used for the diagnosis, t
 So in this case we have six pieces of information recorded in `who2`: the country and the year (already columns); the method of diagnosis, the gender category, and the age range category (contained in the other column names); and the count of patients in that category (cell values).
 To organize these six pieces of information in six separate columns, we use `pivot_longer()` with a vector of column names for `names_to` and instructors for splitting the original variable names into pieces for `names_sep` as well as a column name for `values_to`:
 
-```{r}
+```{webr-r}
 who2 |> 
   pivot_longer(
     cols = !(country:year),
@@ -392,7 +359,7 @@ knitr::include_graphics("diagrams/tidy-data/multiple-names.png", dpi = 270)
 The next step up in complexity is when the column names include a mix of variable values and variable names.
 For example, take the `household` dataset:
 
-```{r}
+```{webr-r}
 household
 ```
 
@@ -401,7 +368,7 @@ The new challenge in this dataset is that the column names contain the names of 
 To solve this problem we again need to supply a vector to `names_to` but this time we use the special `".value"` sentinel; this isn't the name of a variable but a unique value that tells `pivot_longer()` to do something different.
 This overrides the usual `values_to` argument to use the first component of the pivoted column name as a variable name in the output.
 
-```{r}
+```{webr-r}
 household |> 
   pivot_longer(
     cols = !family, 
@@ -441,14 +408,14 @@ This seems to arise less commonly in the wild, but it does seem to crop up a lot
 
 We'll start by looking at `cms_patient_experience`, a dataset from the Centers of Medicare and Medicaid services that collects data about patient experiences:
 
-```{r}
+```{webr-r}
 cms_patient_experience
 ```
 
 The core unit being studied is an organization, but each organization is spread across six rows, with one row for each measurement taken in the survey organization.
 We can see the complete set of values for `measure_cd` and `measure_title` by using `distinct()`:
 
-```{r}
+```{webr-r}
 cms_patient_experience |> 
   distinct(measure_cd, measure_title)
 ```
@@ -458,7 +425,7 @@ We'll use `measure_cd` as the source for our new column names for now, but in a 
 
 `pivot_wider()` has the opposite interface to `pivot_longer()`: instead of choosing new column names, we need to provide the existing columns that define the values (`values_from`) and the column name (`names_from`):
 
-```{r}
+```{webr-r}
 cms_patient_experience |> 
   pivot_wider(
     names_from = measure_cd,
@@ -469,7 +436,7 @@ cms_patient_experience |>
 The output doesn't look quite right; we still seem to have multiple rows for each organization.
 That's because, we also need to tell `pivot_wider()` which column or columns have values that uniquely identify each row; in this case those are the variables starting with `"org"`:
 
-```{r}
+```{webr-r}
 cms_patient_experience |> 
   pivot_wider(
     id_cols = starts_with("org"),
@@ -485,7 +452,7 @@ This gives us the output that we're looking for.
 To understand how `pivot_wider()` works, let's again start with a very simple dataset.
 This time we have two patients with `id`s A and B, we have three blood pressure measurements on patient A and two on patient B:
 
-```{r}
+```{webr-r}
 df <- tribble(
   ~id, ~measurement, ~value,
   "A",        "bp1",    100,
@@ -498,7 +465,7 @@ df <- tribble(
 
 We'll take the values from the `value` column and the names from the `measurement` column:
 
-```{r}
+```{webr-r}
 df |> 
   pivot_wider(
     names_from = measurement,
@@ -509,7 +476,7 @@ df |>
 To begin the process `pivot_wider()` needs to first figure out what will go in the rows and columns.
 The new column names will be the unique values of `measurement`.
 
-```{r}
+```{webr-r}
 df |> 
   distinct(measurement) |> 
   pull()
@@ -519,7 +486,7 @@ By default, the rows in the output are determined by all the variables that aren
 These are called the `id_cols`.
 Here there is only one column, but in general there can be any number.
 
-```{r}
+```{webr-r}
 df |> 
   select(-measurement, -value) |> 
   distinct()
@@ -527,7 +494,7 @@ df |>
 
 `pivot_wider()` then combines these results to generate an empty data frame:
 
-```{r}
+```{webr-r}
 df |> 
   select(-measurement, -value) |> 
   distinct() |> 
@@ -541,7 +508,7 @@ We'll come back to this idea that `pivot_wider()` can "make" missing values in @
 You might also wonder what happens if there are multiple rows in the input that correspond to one cell in the output.
 The example below has two rows that correspond to `id` "A" and `measurement` "bp1":
 
-```{r}
+```{webr-r}
 df <- tribble(
   ~id, ~measurement, ~value,
   "A",        "bp1",    100,
@@ -554,7 +521,7 @@ df <- tribble(
 
 If we attempt to pivot this we get an output that contains list-columns, which you'll learn more about in @sec-rectangling:
 
-```{r}
+```{webr-r}
 df |>
   pivot_wider(
     names_from = measurement,
@@ -564,7 +531,7 @@ df |>
 
 Since you don't know how to work with this sort of data yet, you'll want to follow the hint in the warning to figure out where the problem is:
 
-```{r}
+```{webr-r}
 df |> 
   group_by(id, measurement) |> 
   summarize(n = n(), .groups = "drop") |> 
