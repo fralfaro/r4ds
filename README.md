@@ -9,7 +9,7 @@
 
 <!-- badges: end -->
 
-This repository contains the source of [R for Data Science](http://r4ds.hadley.nz) book.
+This repository contains the source of [R for Data Science](https://fralfaro.github.io/r4ds/) book.
 The book is built using [Quarto](https://quarto.org/).
 
 > 🔑 **Note**: This Interactive Version is built using [quarto-webr](https://github.com/coatless/quarto-webr).
