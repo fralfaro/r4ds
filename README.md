@@ -2,12 +2,17 @@
 
 <!-- badges: start -->
 
-[![Render and deploy Book to Netlify](https://github.com/hadley/r4ds/actions/workflows/build_book.yaml/badge.svg)](https://github.com/hadley/r4ds/actions/workflows/build_book.yaml)
+[![Render and deploy Book to Netlify](https://github.com/fralfaro/r4ds/actions/workflows/build_book.yaml/badge.svg)](https://github.com/fralfaro/r4ds/actions/workflows/build_book.yaml)
+[![documentation](https://img.shields.io/badge/📖-Interactive%20Version-brightgreen)](https://fralfaro.github.io/r4ds/)
+
+
 
 <!-- badges: end -->
 
 This repository contains the source of [R for Data Science](http://r4ds.hadley.nz) book.
 The book is built using [Quarto](https://quarto.org/).
+
+> 🔑 **Note**: This Interactive Version is built using [quarto-webr](https://github.com/coatless/quarto-webr).
 
 ## Images
 
