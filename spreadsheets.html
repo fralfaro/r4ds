@@ -1026,7 +1026,6 @@ Figure&nbsp;20.5: Google Sheet called students in a browser window.
 <div class="cell">
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">deaths_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://googlesheets4.tidyverse.org/reference/gs4_examples.html">gs4_example</a></span><span class="op">(</span><span class="st">"deaths"</span><span class="op">)</span></span>
 <span><span class="va">deaths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://googlesheets4.tidyverse.org/reference/range_read.html">read_sheet</a></span><span class="op">(</span><span class="va">deaths_url</span>, range <span class="op">=</span> <span class="st">"A5:F15"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✖ Request failed [503]. Retry 1 happens in 1.8 seconds ...</span></span>
 <span><span class="co">#&gt; ✔ Reading from deaths.</span></span>
 <span><span class="co">#&gt; ✔ Range A5:F15.</span></span>
 <span><span class="va">deaths</span></span>
