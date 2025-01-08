@@ -2249,9 +2249,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>These relationships are summarized visually in <a href="#fig-flights-relationships" class="quarto-xref">Figure&nbsp;<span>19.1</span></a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-flights-relationships" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The relationships between airports, planes, flights, weather, and airlines datasets from the nycflights13 package. airports$faa connected to the flights$origin and flights$dest. planes$tailnum is connected to the flights$tailnum. weather$time_hour and weather$origin are jointly connected to flights$time_hour and flights$origin. airlines$carrier is connected to flights$carrier. There are no direct connections between airports, planes, airlines, and weather data frames.">
+<div id="fig-flights-relationships" class="quarto-float quarto-figure quarto-figure-center anchored" alt="The relationships between airports, planes, flights, weather, and airlines datasets from the nycflights13 package. airports$faa connected to the flights$origin and flights$dest. planes$tailnum is connected to the flights$tailnum. weather$time_hour and weather$origin are jointly connected to flights$time_hour and  flights$origin. airlines$carrier is connected to flights$carrier. There are no direct connections between airports, planes, airlines,  and weather data frames.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-flights-relationships-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/relational.png" class="img-fluid figure-img" alt="The relationships between airports, planes, flights, weather, and airlines datasets from the nycflights13 package. airports$faa connected to the flights$origin and flights$dest. planes$tailnum is connected to the flights$tailnum. weather$time_hour and weather$origin are jointly connected to flights$time_hour and flights$origin. airlines$carrier is connected to flights$carrier. There are no direct connections between airports, planes, airlines, and weather data frames." width="502">
+<img src="diagrams/relational.png" class="img-fluid figure-img" alt="The relationships between airports, planes, flights, weather, and airlines datasets from the nycflights13 package. airports$faa connected to the flights$origin and flights$dest. planes$tailnum is connected to the flights$tailnum. weather$time_hour and weather$origin are jointly connected to flights$time_hour and  flights$origin. airlines$carrier is connected to flights$carrier. There are no direct connections between airports, planes, airlines,  and weather data frames." width="502">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flights-relationships-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.1: Connections between all five data frames in the nycflights13 package. Variables making up a primary key are colored grey, and are connected to their corresponding foreign keys with arrows.
@@ -2393,9 +2393,9 @@ Figure&nbsp;19.2: Graphical representation of two simple tables. The colored <co
 <p><a href="#fig-join-setup2" class="quarto-xref">Figure&nbsp;<span>19.3</span></a> introduces the foundation for our visual representation. It shows all potential matches between <code>x</code> and <code>y</code> as the intersection between lines drawn from each row of <code>x</code> and each row of <code>y</code>. The rows and columns in the output are primarily determined by <code>x</code>, so the <code>x</code> table is horizontal and lines up with the output.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-setup2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="x and y are placed at right-angles, with horizonal lines extending from x and vertical lines extending from y. There are 3 rows in x and 3 rows in y, which leads to nine intersections representing nine potential matches.">
+<div id="fig-join-setup2" class="quarto-float quarto-figure quarto-figure-center anchored" alt="x and y are placed at right-angles, with horizonal lines extending  from x and vertical lines extending from y. There are 3 rows in x and  3 rows in y, which leads to nine intersections representing nine potential matches.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-setup2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/setup2.png" class="img-fluid figure-img" alt="x and y are placed at right-angles, with horizonal lines extending from x and vertical lines extending from y. There are 3 rows in x and 3 rows in y, which leads to nine intersections representing nine potential matches." width="170">
+<img src="diagrams/join/setup2.png" class="img-fluid figure-img" alt="x and y are placed at right-angles, with horizonal lines extending  from x and vertical lines extending from y. There are 3 rows in x and  3 rows in y, which leads to nine intersections representing nine potential matches." width="170">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-setup2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.3: To understand how joins work, it’s useful to think of every possible match. Here we show that with a grid of connecting lines.
@@ -2452,9 +2452,9 @@ Figure&nbsp;19.6: A visual representation of the right join where every row of <
 <p>A <strong>full join</strong> keeps all observations that appear in <code>x</code> or <code>y</code>, <a href="#fig-join-full" class="quarto-xref">Figure&nbsp;<span>19.7</span></a>. Every row of <code>x</code> and <code>y</code> is included in the output because both <code>x</code> and <code>y</code> have a fall back row of <code>NA</code>s. Again, the output starts with all rows from <code>x</code>, followed by the remaining unmatched <code>y</code> rows.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-full" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Now both x and y have a virtual row that always matches. The result has 4 rows: keys 1, 2, 3, and 4 with all values from val_x and val_y, however key 2, val_y and key 4, val_x are NAs since those keys don't have a match in the other data frames.">
+<div id="fig-join-full" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Now both x and y have a virtual row that always matches. The result has 4 rows: keys 1, 2, 3, and 4 with all values  from val_x and val_y, however key 2, val_y and key 4, val_x are NAs since those keys don't have a match in the other data frames.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-full-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/full.png" class="img-fluid figure-img" alt="Now both x and y have a virtual row that always matches. The result has 4 rows: keys 1, 2, 3, and 4 with all values from val_x and val_y, however key 2, val_y and key 4, val_x are NAs since those keys don't have a match in the other data frames." width="388">
+<img src="diagrams/join/full.png" class="img-fluid figure-img" alt="Now both x and y have a virtual row that always matches. The result has 4 rows: keys 1, 2, 3, and 4 with all values  from val_x and val_y, however key 2, val_y and key 4, val_x are NAs since those keys don't have a match in the other data frames." width="388">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-full-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.7: A visual representation of the full join where every row in <code>x</code> and <code>y</code> appears in the output.
@@ -2467,9 +2467,9 @@ Figure&nbsp;19.7: A visual representation of the full join where every row in <c
 <p>Another way to show how the types of outer join differ is with a Venn diagram, as in <a href="#fig-join-venn" class="quarto-xref">Figure&nbsp;<span>19.8</span></a>. However, this is not a great representation because while it might jog your memory about which rows are preserved, it fails to illustrate what’s happening with the columns.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-venn" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Venn diagrams for inner, full, left, and right joins. Each join represented with two intersecting circles representing data frames x and y, with x on the right and y on the left. Shading indicates the result of the join.">
+<div id="fig-join-venn" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Venn diagrams for inner, full, left, and right joins. Each join represented with two intersecting circles representing data frames x and y, with x on the right and y on the left. Shading indicates the result of the join. ">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/venn.png" class="img-fluid figure-img" alt="Venn diagrams for inner, full, left, and right joins. Each join represented with two intersecting circles representing data frames x and y, with x on the right and y on the left. Shading indicates the result of the join." width="385">
+<img src="diagrams/join/venn.png" class="img-fluid figure-img" alt="Venn diagrams for inner, full, left, and right joins. Each join represented with two intersecting circles representing data frames x and y, with x on the right and y on the left. Shading indicates the result of the join. " width="385">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-venn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.8: Venn diagrams showing the difference between inner, left, right, and full joins.
@@ -2511,9 +2511,9 @@ Figure&nbsp;19.9: The three ways a row in <code>x</code> can match. <code>x1</co
 <p>The number of matches also determines the behavior of the filtering joins. The semi-join keeps rows in <code>x</code> that have one or more matches in <code>y</code>, as in <a href="#fig-join-semi" class="quarto-xref">Figure&nbsp;<span>19.10</span></a>. The anti-join keeps rows in <code>x</code> that match zero rows in <code>y</code>, as in <a href="#fig-join-anti" class="quarto-xref">Figure&nbsp;<span>19.11</span></a>. In both cases, only the existence of a match is important; it doesn’t matter how many times it matches. This means that filtering joins never duplicate rows like mutating joins do.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-semi" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A join diagram with old friends x and y. In a semi join, only the presence of a match matters so the output contains the same columns as x.">
+<div id="fig-join-semi" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A join diagram with old friends x and y. In a semi join, only the  presence of a match matters so the output contains the same columns as x.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-semi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/semi.png" class="img-fluid figure-img" alt="A join diagram with old friends x and y. In a semi join, only the presence of a match matters so the output contains the same columns as x." width="318">
+<img src="diagrams/join/semi.png" class="img-fluid figure-img" alt="A join diagram with old friends x and y. In a semi join, only the  presence of a match matters so the output contains the same columns as x." width="318">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-semi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.10: In a semi-join it only matters that there is a match; otherwise values in <code>y</code> don’t affect the output.
@@ -2554,9 +2554,9 @@ Figure&nbsp;19.12: An inner join showing both <code>x</code> and <code>y</code> 
 <p>When we move away from equi joins we’ll always show the keys, because the key values will often be different. For example, instead of matching only when the <code>x$key</code> and <code>y$key</code> are equal, we could match whenever the <code>x$key</code> is greater than or equal to the <code>y$key</code>, leading to <a href="#fig-join-gte" class="quarto-xref">Figure&nbsp;<span>19.13</span></a>. dplyr’s join functions understand this distinction equi and non-equi joins so will always show both keys when you perform a non-equi join.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-gte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A join diagram illustrating join_by(key >= key). The first row of x matches one row of y and the second and thirds rows each match two rows. This means the output has five rows containing each of the following (key.x, key.y) pairs: (1, 1), (2, 1), (2, 2), (3, 1), (3, 2).">
+<div id="fig-join-gte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A join diagram illustrating join_by(key >= key). The first row of x matches one row of y and the second and thirds rows each match two rows. This means the output has five rows containing each of the  following (key.x, key.y) pairs: (1, 1), (2, 1), (2, 2), (3, 1), (3, 2).">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-gte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/gte.png" class="img-fluid figure-img" alt="A join diagram illustrating join_by(key >= key). The first row of x matches one row of y and the second and thirds rows each match two rows. This means the output has five rows containing each of the following (key.x, key.y) pairs: (1, 1), (2, 1), (2, 2), (3, 1), (3, 2)." width="385">
+<img src="diagrams/join/gte.png" class="img-fluid figure-img" alt="A join diagram illustrating join_by(key >= key). The first row of x matches one row of y and the second and thirds rows each match two rows. This means the output has five rows containing each of the  following (key.x, key.y) pairs: (1, 1), (2, 1), (2, 2), (3, 1), (3, 2)." width="385">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-gte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.13: A non-equi join where the <code>x</code> key must be greater than or equal to the <code>y</code> key. Many rows generate multiple matches.
@@ -2599,9 +2599,9 @@ Figure&nbsp;19.14: A cross join matches each row in <code>x</code> with every ro
 <p>Inequality joins use <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, or <code>&gt;</code> to restrict the set of possible matches, as in <a href="#fig-join-gte" class="quarto-xref">Figure&nbsp;<span>19.13</span></a> and <a href="#fig-join-lt" class="quarto-xref">Figure&nbsp;<span>19.15</span></a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-lt" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram depicting an inequality join where a data frame x is joined by a data frame y where the key of x is less than the key of y, resulting in a triangular shape in the top-left corner.">
+<div id="fig-join-lt" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A diagram depicting an inequality join where a data frame x is joined by  a data frame y where the key of x is less than the key of y, resulting  in a triangular shape in the top-left corner.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-lt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/lt.png" class="img-fluid figure-img" alt="A diagram depicting an inequality join where a data frame x is joined by a data frame y where the key of x is less than the key of y, resulting in a triangular shape in the top-left corner." width="185">
+<img src="diagrams/join/lt.png" class="img-fluid figure-img" alt="A diagram depicting an inequality join where a data frame x is joined by  a data frame y where the key of x is less than the key of y, resulting  in a triangular shape in the top-left corner." width="185">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-lt-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.15: An inequality join where <code>x</code> is joined to <code>y</code> on rows where the key of <code>x</code> is less than the key of <code>y</code>. This makes a triangular shape in the top-left corner.
@@ -2617,9 +2617,9 @@ Figure&nbsp;19.15: An inequality join where <code>x</code> is joined to <code>y<
 <p>Rolling joins are a special type of inequality join where instead of getting <em>every</em> row that satisfies the inequality, you get just the closest row, as in <a href="#fig-join-closest" class="quarto-xref">Figure&nbsp;<span>19.16</span></a>. You can turn any inequality join into a rolling join by adding <code>closest()</code>. For example <code>join_by(closest(x &lt;= y))</code> matches the smallest <code>y</code> that’s greater than or equal to x, and <code>join_by(closest(x &gt; y))</code> matches the biggest <code>y</code> that’s less than <code>x</code>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="fig-join-closest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A rolling join is a subset of an inequality join so some matches are grayed out indicating that they're not used because they're not the &quot;closest&quot;.">
+<div id="fig-join-closest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A rolling join is a subset of an inequality join so some matches are grayed out indicating that they're not used because they're not the  &quot;closest&quot;.">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-join-closest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="diagrams/join/closest.png" class="img-fluid figure-img" alt="A rolling join is a subset of an inequality join so some matches are grayed out indicating that they're not used because they're not the &quot;closest&quot;." width="262">
+<img src="diagrams/join/closest.png" class="img-fluid figure-img" alt="A rolling join is a subset of an inequality join so some matches are grayed out indicating that they're not used because they're not the  &quot;closest&quot;." width="262">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-closest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;19.16: A rolling join is similar to a greater-than-or-equal inequality join but only matches the first value.
