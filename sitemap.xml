@@ -2,154 +2,154 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://r4ds.hadley.nz/index.html</loc>
-    <lastmod>2025-03-21T23:06:21.277Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.111Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/preface-2e.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/intro.html</loc>
-    <lastmod>2025-03-21T23:06:21.277Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.111Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/whole-game.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/data-visualize.html</loc>
-    <lastmod>2025-03-21T23:06:21.219Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.053Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/workflow-basics.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/data-transform.html</loc>
-    <lastmod>2025-03-21T23:06:21.219Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.052Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/workflow-style.html</loc>
-    <lastmod>2025-03-21T23:06:21.329Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/data-tidy.html</loc>
-    <lastmod>2025-03-21T23:06:21.219Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.052Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/workflow-scripts.html</loc>
-    <lastmod>2025-03-21T23:06:21.329Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/data-import.html</loc>
-    <lastmod>2025-03-21T23:06:21.219Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.052Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/workflow-help.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/visualize.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/layers.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/EDA.html</loc>
-    <lastmod>2025-03-21T23:06:21.216Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.050Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/communication.html</loc>
-    <lastmod>2025-03-21T23:06:21.218Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.051Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/transform.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/logicals.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/numbers.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/strings.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/regexps.html</loc>
-    <lastmod>2025-03-21T23:06:21.301Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.135Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/factors.html</loc>
-    <lastmod>2025-03-21T23:06:21.257Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.090Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/datetimes.html</loc>
-    <lastmod>2025-03-21T23:06:21.221Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.055Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/missing-values.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/joins.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.111Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/import.html</loc>
-    <lastmod>2025-03-21T23:06:21.277Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.111Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/spreadsheets.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.161Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/databases.html</loc>
-    <lastmod>2025-03-21T23:06:21.221Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.055Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/arrow.html</loc>
-    <lastmod>2025-03-21T23:06:21.217Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.051Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/rectangling.html</loc>
-    <lastmod>2025-03-21T23:06:21.301Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.135Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/webscraping.html</loc>
-    <lastmod>2025-03-21T23:06:21.328Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.162Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/program.html</loc>
-    <lastmod>2025-03-21T23:06:21.279Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/functions.html</loc>
-    <lastmod>2025-03-21T23:06:21.257Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.091Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/iteration.html</loc>
-    <lastmod>2025-03-21T23:06:21.278Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.111Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/base-R.html</loc>
-    <lastmod>2025-03-21T23:06:21.218Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.051Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/communicate.html</loc>
-    <lastmod>2025-03-21T23:06:21.218Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.051Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/quarto.html</loc>
-    <lastmod>2025-03-21T23:06:21.279Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
   <url>
     <loc>https://r4ds.hadley.nz/quarto-formats.html</loc>
-    <lastmod>2025-03-21T23:06:21.279Z</lastmod>
+    <lastmod>2025-03-22T23:06:02.112Z</lastmod>
   </url>
 </urlset>
