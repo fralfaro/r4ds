@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund">
 <meta name="description" content="🖥️ Interactive Version with quarto-webr by Francisco Alfaro">
@@ -68,18 +68,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./cover.jpg" rel="icon" type="image/jpeg">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-eaec1411600aaa3d517a4c2d9683cbbb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ec81560dac56570f6aac9b772d24a667.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-eaec1411600aaa3d517a4c2d9683cbbb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-f2e7a7605c80472e4829c77b95a905a7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-2595d47338eee8915b496a8311e0aa2f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-f2e7a7605c80472e4829c77b95a905a7.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -1765,7 +1766,9 @@ globalThis.qwebrExecuteCode = async function (
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">R for Data Science (2e)</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -2447,11 +2450,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span class="header-section-number">26.2.2</span> Calling a single function</h3>
 <p>The second argument to <code>across()</code> defines how each column will be transformed. In simple cases, as above, this will be a single existing function. This is a pretty special feature of R: we’re passing one function (<code>median</code>, <code>mean</code>, <code>str_flatten</code>, …) to another function (<code>across</code>). This is one of the features that makes R a functional programming language.</p>
 <p>It’s important to note that we’re passing this function to <code>across()</code>, so <code>across()</code> can call it; we’re not calling it ourselves. That means the function name should never be followed by <code>()</code>. If you forget, you’ll get an error:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">grp</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">summarize</span><span class="op">(</span><span class="fu">across</span><span class="op">(</span><span class="fu">everything</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This error arises because you’re calling the function with no input, e.g.:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section><section id="calling-multiple-functions" class="level3" data-number="26.2.3"><h3 data-number="26.2.3" class="anchored" data-anchor-id="calling-multiple-functions">
 <span class="header-section-number">26.2.3</span> Calling multiple functions</h3>
 <p>In more complex cases, you might want to supply additional arguments or perform multiple transformations. Let’s motivate this problem with a simple example: what happens if we have some missing values in our data? <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code> propagates those missing values, giving us a suboptimal output:</p>
@@ -2535,14 +2538,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span class="header-section-number">26.3</span> Reading multiple files</h2>
 <p>In the previous section, you learned how to use <code><a href="https://dplyr.tidyverse.org/reference/across.html">dplyr::across()</a></code> to repeat a transformation on multiple columns. In this section, you’ll learn how to use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> to do something to every file in a directory. Let’s start with a little motivation: imagine you have a directory full of excel spreadsheets<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> you want to read. You could do it with copy and paste:</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data2019</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2019.xlsx"</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data2019</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2019.xlsx"</span><span class="op">)</span></span>
 <span><span class="va">data2020</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2020.xlsx"</span><span class="op">)</span></span>
 <span><span class="va">data2021</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2021.xlsx"</span><span class="op">)</span></span>
-<span><span class="va">data2022</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2022.xlsx"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">data2022</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/y2022.xlsx"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And then use <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html">dplyr::bind_rows()</a></code> to combine them all together:</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">data2019</span>, <span class="va">data2020</span>, <span class="va">data2021</span>, <span class="va">data2022</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">data2019</span>, <span class="va">data2020</span>, <span class="va">data2021</span>, <span class="va">data2022</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can imagine that this would get tedious quickly, especially if you had hundreds of files, not just four. The following sections show you how to automate this sort of task. There are three basic steps: use <code><a href="https://rdrr.io/r/base/list.files.html">list.files()</a></code> to list all the files in a directory, then use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> to read each of them into a list, then use <code><a href="https://purrr.tidyverse.org/reference/list_c.html">purrr::list_rbind()</a></code> to combine them into a single data frame. We’ll then discuss how you can handle situations of increasing heterogeneity, where you can’t do exactly the same thing to every file.</p>
 <section id="listing-files-in-a-directory" class="level3" data-number="26.3.1"><h3 data-number="26.3.1" class="anchored" data-anchor-id="listing-files-in-a-directory">
@@ -2555,8 +2558,8 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </ul>
 <p>To make our motivating example concrete, this book contains a folder with 12 excel spreadsheets containing data from the gapminder package. Each file contains one year’s worth of data for 142 countries. We can list them all with the appropriate call to <code><a href="https://rdrr.io/r/base/list.files.html">list.files()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data/gapminder"</span>, pattern <span class="op">=</span> <span class="st">"[.]xlsx$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">paths</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">"data/gapminder"</span>, pattern <span class="op">=</span> <span class="st">"[.]xlsx$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">paths</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "data/gapminder/1952.xlsx" "data/gapminder/1957.xlsx"
  [3] "data/gapminder/1962.xlsx" "data/gapminder/1967.xlsx"
@@ -2570,25 +2573,25 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span class="header-section-number">26.3.2</span> Lists</h3>
 <p>Now that we have these 12 paths, we could call <code>read_excel()</code> 12 times to get 12 data frames:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gapminder_1952 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/1952.xlsx"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gapminder_1952 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/1952.xlsx"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gapminder_1957 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/1957.xlsx"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gapminder_1962 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/1962.xlsx"</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> ...,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/2007.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>gapminder_2007 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(<span class="st">"data/gapminder/2007.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>But putting each sheet into its own variable is going to make it hard to work with them a few steps down the road. Instead, they’ll be easier to work with if we put them into a single object. A list is the perfect tool for this job:</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1952.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1957.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1962.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/2007.xlsx"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now that you have these data frames in a list, how do you get one out? You can use <code>files[[i]]</code> to extract the i<sup>th</sup> element:</p>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 5
    country     continent lifeExp      pop gdpPercap
@@ -2612,21 +2615,21 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </h3>
 <p>The code to collect those data frames in a list “by hand” is basically just as tedious to type as code that reads the files one-by-one. Happily, we can use <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> to make even better use of our <code>paths</code> vector. <code>map()</code> is similar to<code>across()</code>, but instead of doing something to each column in a data frame, it does something to each element of a vector.<code>map(x, f)</code> is shorthand for:</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  <span class="fu">f</span><span class="op">(</span><span class="va">x</span><span class="op">[[</span><span class="va">n</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>So we can use <code>map()</code> to get a list of 12 data frames:</p>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu">map</span><span class="op">(</span><span class="va">paths</span>, <span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu">map</span><span class="op">(</span><span class="va">paths</span>, <span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
 </div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 5
    country     continent lifeExp      pop gdpPercap
@@ -2647,7 +2650,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>(This is another data structure that doesn’t display particularly compactly with <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> so you might want to load it into RStudio and inspect it with <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code>).</p>
 <p>Now we can use <code><a href="https://purrr.tidyverse.org/reference/list_c.html">purrr::list_rbind()</a></code> to combine that list of data frames into a single data frame:</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">list_rbind</span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">list_rbind</span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,704 × 5
    country     continent lifeExp      pop gdpPercap
@@ -2667,15 +2670,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Or we could do both steps at once in a pipeline:</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>What if we want to pass in extra arguments to <code>read_excel()</code>? We use the same technique that we used with <code>across()</code>. For example, it’s often useful to peek at the first few rows of the data with <code>n_max = 1</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span>, n_max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 5
    country     continent lifeExp      pop gdpPercap
@@ -2700,7 +2703,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Sometimes the name of the file is data itself. In this example, the file name contains the year, which is not otherwise recorded in the individual files. To get that column into the final data frame, we need to do two things:</p>
 <p>First, we name the vector of paths. The easiest way to do this is with the <code>set_names()</code> function, which can take a function. Here we use <code><a href="https://rdrr.io/r/base/basename.html">basename()</a></code> to extract just the file name from the full path:</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">set_names</span><span class="op">(</span><span class="va">basename</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">set_names</span><span class="op">(</span><span class="va">basename</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 1952.xlsx                  1957.xlsx 
 "data/gapminder/1952.xlsx" "data/gapminder/1957.xlsx" 
@@ -2718,23 +2721,23 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Those names are automatically carried along by all the map functions, so the list of data frames will have those same names:</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">set_names</span><span class="op">(</span><span class="va">basename</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>That makes this call to <code>map()</code> shorthand for:</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"1952.xlsx"</span> <span class="op">=</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1952.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="st">"1957.xlsx"</span> <span class="op">=</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1957.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="st">"1962.xlsx"</span> <span class="op">=</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/1962.xlsx"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  <span class="st">"2007.xlsx"</span> <span class="op">=</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/gapminder/2007.xlsx"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also use <code>[[</code> to extract elements by name:</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="st">"1962.xlsx"</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span><span class="op">[[</span><span class="st">"1962.xlsx"</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 5
    country     continent lifeExp      pop gdpPercap
@@ -2754,11 +2757,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Then we use the <code>names_to</code> argument to <code>list_rbind()</code> to tell it to save the names into a new column called <code>year</code> then use <code><a href="https://readr.tidyverse.org/reference/parse_number.html">readr::parse_number()</a></code> to extract the number from the string.</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">set_names</span><span class="op">(</span><span class="va">basename</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">list_rbind</span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fu">parse_number</span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fu">parse_number</span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,704 × 6
     year country     continent lifeExp      pop gdpPercap
@@ -2778,12 +2781,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>In more complicated cases, there might be other variables stored in the directory name, or maybe the file name contains multiple bits of data. In that case, use <code>set_names()</code> (without any arguments) to record the full path, and then use <code><a href="https://tidyr.tidyverse.org/reference/separate_wider_delim.html">tidyr::separate_wider_delim()</a></code> and friends to turn them into useful columns.</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">set_names</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">list_rbind</span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">separate_wider_delim</span><span class="op">(</span><span class="va">year</span>, delim <span class="op">=</span> <span class="st">"/"</span>, names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">"dir"</span>, <span class="st">"file"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">separate_wider_delim</span><span class="op">(</span><span class="va">file</span>, delim <span class="op">=</span> <span class="st">"."</span>, names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"ext"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">separate_wider_delim</span><span class="op">(</span><span class="va">file</span>, delim <span class="op">=</span> <span class="st">"."</span>, names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"file"</span>, <span class="st">"ext"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1,704 × 8
    dir       file  ext   country     continent lifeExp      pop gdpPercap
@@ -2805,13 +2808,13 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span class="header-section-number">26.3.5</span> Save your work</h3>
 <p>Now that you’ve done all this hard work to get to a nice tidy data frame, it’s a great time to save your work:</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gapminder</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gapminder</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">set_names</span><span class="op">(</span><span class="va">basename</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">list_rbind</span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"year"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>year <span class="op">=</span> <span class="fu">parse_number</span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">write_csv</span><span class="op">(</span><span class="va">gapminder</span>, <span class="st">"gapminder.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">write_csv</span><span class="op">(</span><span class="va">gapminder</span>, <span class="st">"gapminder.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now when you come back to this problem in the future, you can read in a single csv file. For large and richer datasets, using parquet might be a better choice than <code>.csv</code>, as discussed in <a href="arrow.html#sec-parquet" class="quarto-xref"><span>Section 22.4</span></a>.</p>
 <p>If you’re working in a project, we suggest calling the file that does this sort of data prep work something like <code>0-cleanup.R</code>. The <code>0</code> in the file name suggests that this should be run before anything else.</p>
@@ -2821,7 +2824,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Here we’ve just loaded the data directly from disk, and were lucky enough to get a tidy dataset. In most cases, you’ll need to do some additional tidying, and you have two basic options: you can do one round of iteration with a complex function, or do multiple rounds of iteration with simple functions. In our experience most folks reach first for one complex iteration, but you’re often better by doing multiple simple iterations.</p>
 <p>For example, imagine that you want to read in a bunch of files, filter out missing values, pivot, and then combine. One way to approach the problem is to write a function that takes a file and does all those steps then call <code>map()</code> once:</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">process_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">process_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">df</span> <span class="op">|&gt;</span></span>
@@ -2832,37 +2835,37 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span></span>
 <span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="va">process_file</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Alternatively, you could perform each step of <code>process_file()</code> to every file:</p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="va">read_csv</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="va">df</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="va">df</span> <span class="op">|&gt;</span> <span class="fu">mutate</span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span>\<span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="va">df</span> <span class="op">|&gt;</span> <span class="fu">pivot_longer</span><span class="op">(</span><span class="va">jan</span><span class="op">:</span><span class="va">dec</span>, names_to <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We recommend this approach because it stops you getting fixated on getting the first file right before moving on to the rest. By considering all of the data when doing tidying and cleaning, you’re more likely to think holistically and end up with a higher quality result.</p>
 <p>In this particular example, there’s another optimization you could make, by binding all the data frames together earlier. Then you can rely on regular dplyr behavior:</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="va">read_csv</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="va">jan</span><span class="op">:</span><span class="va">dec</span>, names_to <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="va">jan</span><span class="op">:</span><span class="va">dec</span>, names_to <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="heterogeneous-data" class="level3" data-number="26.3.7"><h3 data-number="26.3.7" class="anchored" data-anchor-id="heterogeneous-data">
 <span class="header-section-number">26.3.7</span> Heterogeneous data</h3>
 <p>Unfortunately, sometimes it’s not possible to go from <code>map()</code> straight to <code>list_rbind()</code> because the data frames are so heterogeneous that <code>list_rbind()</code> either fails or yields a data frame that’s not very useful. In that case, it’s still useful to start by loading all of the files:</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="fu">readxl</span><span class="fu">::</span><span class="va"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then a very useful strategy is to capture the structure of the data frames so that you can explore it using your data science skills. One way to do so is with this handy <code>df_types</code> function<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> that returns a tibble with one row for each column:</p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_types</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_types</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">tibble</span><span class="op">(</span></span>
 <span>    col_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>,</span>
 <span>    col_type <span class="op">=</span> <span class="fu">map_chr</span><span class="op">(</span><span class="va">df</span>, <span class="fu">vctrs</span><span class="fu">::</span><span class="va"><a href="https://vctrs.r-lib.org/reference/vec_ptype_full.html">vec_ptype_full</a></span><span class="op">)</span>,</span>
@@ -2870,7 +2873,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu">df_types</span><span class="op">(</span><span class="va">gapminder</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">df_types</span><span class="op">(</span><span class="va">gapminder</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   col_name  col_type  n_miss
@@ -2885,11 +2888,11 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>You can then apply this function to all of the files, and maybe do some pivoting to make it easier to see where the differences are. For example, this makes it easy to verify that the gapminder spreadsheets that we’ve been working with are all quite homogeneous:</p>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="va">df_types</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">list_rbind</span><span class="op">(</span>names_to <span class="op">=</span> <span class="st">"file_name"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">n_miss</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">col_name</span>, values_from <span class="op">=</span> <span class="va">col_type</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">col_name</span>, values_from <span class="op">=</span> <span class="va">col_type</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 6
    file_name country   continent lifeExp pop    gdpPercap
@@ -2914,16 +2917,16 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Sometimes the structure of your data might be sufficiently wild that you can’t even read all the files with a single command. And then you’ll encounter one of the downsides of <code>map()</code>: it succeeds or fails as a whole. <code>map()</code> will either successfully read all of the files in a directory or fail with an error, reading zero files. This is annoying: why does one failure prevent you from accessing all the other successes?</p>
 <p>Luckily, purrr comes with a helper to tackle this problem: <code>possibly()</code>. <code>possibly()</code> is what’s known as a function operator: it takes a function and returns a function with modified behavior. In particular, <code>possibly()</code> changes a function from erroring to returning a value that you specify:</p>
 <div class="cell">
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="va">paths</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">map</span><span class="op">(</span><span class="fu">possibly</span><span class="op">(</span>\<span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">files</span> <span class="op">|&gt;</span> <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">files</span> <span class="op">|&gt;</span> <span class="fu">list_rbind</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This works particularly well here because <code>list_rbind()</code>, like many tidyverse functions, automatically ignores <code>NULL</code>s.</p>
 <p>Now you have all the data that can be read easily, and it’s time to tackle the hard part of figuring out why some files failed to load and what to do about it. Start by getting the paths that failed:</p>
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">failed</span> <span class="op">&lt;-</span> <span class="fu">map_vec</span><span class="op">(</span><span class="va">files</span>, <span class="va">is.null</span><span class="op">)</span></span>
-<span><span class="va">paths</span><span class="op">[</span><span class="va">failed</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">failed</span> <span class="op">&lt;-</span> <span class="fu">map_vec</span><span class="op">(</span><span class="va">files</span>, <span class="va">is.null</span><span class="op">)</span></span>
+<span><span class="va">paths</span><span class="op">[</span><span class="va">failed</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>character(0)</code></pre>
 </div>
@@ -2942,15 +2945,15 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <p>Sometimes when working with many files at once, it’s not possible to fit all your data into memory at once, and you can’t do <code>map(files, read_csv)</code>. One approach to deal with this problem is to load your data into a database so you can access just the bits you need with dbplyr.</p>
 <p>If you’re lucky, the database package you’re using will provide a handy function that takes a vector of paths and loads them all into the database. This is the case with duckdb’s <code>duckdb_read_csv()</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb_read_csv.html">duckdb_read_csv</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">paths</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb_read_csv.html">duckdb_read_csv</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">paths</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This would work well here, but we don’t have csv files, instead we have excel spreadsheets. So we’re going to have to do it “by hand”. Learning to do it by hand will also help you when you have a bunch of csvs and the database that you’re working with doesn’t have one function that will load them all in.</p>
 <p>We need to start by creating a table that we will fill in with data. The easiest way to do this is by creating a template, a dummy data frame that contains all the columns we want, but only a sampling of the data. For the gapminder data, we can make that template by reading a single file and adding the year to it:</p>
 <div class="cell">
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">paths</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">template</span><span class="op">$</span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fl">1952</span></span>
-<span><span class="va">template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">template</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 142 × 6
    country     continent lifeExp      pop gdpPercap  year
@@ -2970,12 +2973,12 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Now we can connect to the database, and use <code><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">DBI::dbCreateTable()</a></code> to turn our template into a database table:</p>
 <div class="cell">
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">dbCreateTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">template</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html">duckdb</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">dbCreateTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">template</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>dbCreateTable()</code> doesn’t use the data in <code>template</code>, just the variable names and types. So if we inspect the <code>gapminder</code> table now you’ll see that it’s empty but it has the variables we need with the types we expect:</p>
 <div class="cell">
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">|&gt;</span> <span class="fu">tbl</span><span class="op">(</span><span class="st">"gapminder"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">|&gt;</span> <span class="fu">tbl</span><span class="op">(</span><span class="st">"gapminder"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   table&lt;gapminder&gt; [?? x 6]
 # Database: DuckDB 1.3.3-dev231 [unknown@Linux 6.11.0-1018-azure:R 4.5.1/:memory:]
@@ -2985,42 +2988,42 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Next, we need a function that takes a single file path, reads it into R, and adds the result to the <code>gapminder</code> table. We can do that by combining <code>read_excel()</code> with <code><a href="https://dbi.r-dbi.org/reference/dbAppendTable.html">DBI::dbAppendTable()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">append_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">append_file</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span>  <span class="va">df</span><span class="op">$</span><span class="va">year</span> <span class="op">&lt;-</span> <span class="fu">parse_number</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbAppendTable.html">dbAppendTable</a></span><span class="op">(</span><span class="va">con</span>, <span class="st">"gapminder"</span>, <span class="va">df</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we need to call <code>append_file()</code> once for each element of <code>paths</code>. That’s certainly possible with <code>map()</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">map</span><span class="op">(</span><span class="va">append_file</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">map</span><span class="op">(</span><span class="va">append_file</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>But we don’t care about the output of <code>append_file()</code>, so instead of <code>map()</code> it’s slightly nicer to use <code>walk()</code>. <code>walk()</code> does exactly the same thing as <code>map()</code> but throws the output away:</p>
 <div class="cell">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">walk</span><span class="op">(</span><span class="va">append_file</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">paths</span> <span class="op">|&gt;</span> <span class="fu">walk</span><span class="op">(</span><span class="va">append_file</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can see if we have all the data in our table:</p>
 <div class="cell">
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">con</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tbl</span><span class="op">(</span><span class="st">"gapminder"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">count</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">year</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   SQL [?? x 2]
 # Database: DuckDB 1.3.3-dev231 [unknown@Linux 6.11.0-1018-azure:R 4.5.1/:memory:]
     year     n
    &lt;dbl&gt; &lt;dbl&gt;
- 1  1967   142
- 2  1977   142
- 3  1987   142
- 4  1952   142
- 5  1957   142
- 6  1962   142
- 7  1972   142
- 8  1982   142
- 9  1992   142
-10  1997   142
-11  2002   142
+ 1  1952   142
+ 2  1957   142
+ 3  1962   142
+ 4  1972   142
+ 5  1982   142
+ 6  1992   142
+ 7  1997   142
+ 8  2002   142
+ 9  1967   142
+10  1977   142
+11  1987   142
 12  2007   142</code></pre>
 </div>
 </div>
@@ -3028,10 +3031,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span class="header-section-number">26.4.2</span> Writing csv files</h3>
 <p>The same basic principle applies if we want to write multiple csv files, one for each group. Let’s imagine that we want to take the <code><a href="https://ggplot2.tidyverse.org/reference/diamonds.html">ggplot2::diamonds</a></code> data and save one csv file for each <code>clarity</code>. First we need to make those individual datasets. There are many ways you could do that, but there’s one way we particularly like: <code>group_nest()</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">diamonds</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">diamonds</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">group_nest</span><span class="op">(</span><span class="va">clarity</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">by_clarity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">by_clarity</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 2
   clarity               data
@@ -3048,7 +3051,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>This gives us a new tibble with eight rows and two columns. <code>clarity</code> is our grouping variable and <code>data</code> is a list-column containing one tibble for each unique value of <code>clarity</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 741 × 9
    carat cut       color depth table price     x     y     z
@@ -3068,10 +3071,10 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>While we’re here, let’s create a column that gives the name of output file, using <code>mutate()</code> and <code>str_glue()</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">by_clarity</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">by_clarity</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>path <span class="op">=</span> <span class="fu">str_glue</span><span class="op">(</span><span class="st">"diamonds-{clarity}.csv"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">by_clarity</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">by_clarity</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 8 × 3
   clarity               data path             
@@ -3088,25 +3091,25 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>So if we were going to save these data frames by hand, we might write something like:</p>
 <div class="cell">
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">...</span></span>
-<span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">by_clarity</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">write_csv</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">by_clarity</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is a little different to our previous uses of <code>map()</code> because there are two arguments that are changing, not just one. That means we need a new function: <code>map2()</code>, which varies both the first and second arguments. And because we again don’t care about the output, we want <code>walk2()</code> rather than <code>map2()</code>. That gives us:</p>
 <div class="cell">
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">walk2</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span>, <span class="va">write_csv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">walk2</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span>, <span class="va">write_csv</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section><section id="saving-plots" class="level3" data-number="26.4.3"><h3 data-number="26.4.3" class="anchored" data-anchor-id="saving-plots">
 <span class="header-section-number">26.4.3</span> Saving plots</h3>
 <p>We can take the same basic approach to create many plots. Let’s first make a function that draws the plot we want:</p>
 <div class="cell">
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">carat_histogram</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">carat_histogram</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="va">df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">carat</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_histogram</span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="fu">carat_histogram</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">carat_histogram</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="iteration_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" alt="Histogram of carats of diamonds from the by_clarity dataset, ranging from 0 to 5 carats. The distribution is unimodal and right skewed with a peak around 1 carat." width="672"></p>
@@ -3116,27 +3119,27 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 </div>
 <p>Now we can use <code>map()</code> to create a list of many plots<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> and their eventual file paths:</p>
 <div class="cell">
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">by_clarity</span> <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_clarity</span> <span class="op">&lt;-</span> <span class="va">by_clarity</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    plot <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">data</span>, <span class="va">carat_histogram</span><span class="op">)</span>,</span>
 <span>    path <span class="op">=</span> <span class="fu">str_glue</span><span class="op">(</span><span class="st">"clarity-{clarity}.png"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then use <code>walk2()</code> with <code>ggsave()</code> to save each plot:</p>
 <div class="cell">
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">walk2</span><span class="op">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">walk2</span><span class="op">(</span></span>
 <span>  <span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span>,</span>
 <span>  <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span>,</span>
 <span>  \<span class="op">(</span><span class="va">path</span>, <span class="va">plot</span><span class="op">)</span> <span class="fu">ggsave</span><span class="op">(</span><span class="va">path</span>, <span class="va">plot</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is shorthand for:</p>
 <div class="cell">
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">...</span></span>
-<span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">ggsave</span><span class="op">(</span><span class="va">by_clarity</span><span class="op">$</span><span class="va">path</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, <span class="va">by_clarity</span><span class="op">$</span><span class="va">plot</span><span class="op">[[</span><span class="fl">8</span><span class="op">]</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">6</span>, height <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <!-- 
 ### Exercises
@@ -3222,13 +3225,14 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
