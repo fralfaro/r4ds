@@ -2668,9 +2668,9 @@ Figure&nbsp;24.1: Screenshot of the IMDb top movies web page taken on 2022-12-05
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rvest.tidyverse.org/reference/html_attr.html">html_attr</a></span><span class="op">(</span><span class="st">"title"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "9.2 based on 2,536,415 user ratings" "9.1 based on 1,745,675 user ratings"
-[3] "9.0 based on 1,211,032 user ratings" "9.0 based on 2,486,931 user ratings"
-[5] "8.9 based on 749,563 user ratings"   "8.9 based on 1,295,705 user ratings"</code></pre>
+<pre><code>[1] "9.2 based on 2,534,387 user ratings" "9.1 based on 1,744,507 user ratings"
+[3] "9.0 based on 1,210,261 user ratings" "9.0 based on 2,484,964 user ratings"
+[5] "8.9 based on 748,952 user ratings"   "8.9 based on 1,294,791 user ratings"</code></pre>
 </div>
 </div>
 <p>We can combine this with the tabular data and again apply <code><a href="https://tidyr.tidyverse.org/reference/separate_wider_delim.html">separate_wider_regex()</a></code> to extract out the bit of data we care about:</p>
@@ -2694,16 +2694,16 @@ Figure&nbsp;24.1: Screenshot of the IMDb top movies web page taken on 2022-12-05
 <pre><code># A tibble: 250 × 5
    rank  title                                             year  rating  number
    &lt;chr&gt; &lt;chr&gt;                                             &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;
- 1 1     The Shawshank Redemption                          1994     9.2 2536415
- 2 2     The Godfather                                     1972     9.1 1745675
- 3 3     The Godfather: Part II                            1974     9   1211032
- 4 4     The Dark Knight                                   2008     9   2486931
- 5 5     12 Angry Men                                      1957     8.9  749563
- 6 6     Schindler's List                                  1993     8.9 1295705
- 7 7     The Lord of the Rings: The Return of the King     2003     8.9 1749722
- 8 8     Pulp Fiction                                      1994     8.8 1952864
- 9 9     The Good, the Bad and the Ugly                    1966     8.8  732557
-10 10    The Lord of the Rings: The Fellowship of the Ring 2001     8.8 1771245
+ 1 1     The Shawshank Redemption                          1994     9.2 2534387
+ 2 2     The Godfather                                     1972     9.1 1744507
+ 3 3     The Godfather: Part II                            1974     9   1210261
+ 4 4     The Dark Knight                                   2008     9   2484964
+ 5 5     12 Angry Men                                      1957     8.9  748952
+ 6 6     Schindler's List                                  1993     8.9 1294791
+ 7 7     The Lord of the Rings: The Return of the King     2003     8.9 1748607
+ 8 8     Pulp Fiction                                      1994     8.8 1951705
+ 9 9     The Good, the Bad and the Ugly                    1966     8.8  732151
+10 10    The Lord of the Rings: The Fellowship of the Ring 2001     8.8 1770065
 # ℹ 240 more rows</code></pre>
 </div>
 </div>
