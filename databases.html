@@ -2397,9 +2397,9 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.6
+✔ dplyr     1.2.0     ✔ readr     2.1.6
 ✔ forcats   1.0.1     ✔ stringr   1.6.0
-✔ ggplot2   4.0.1     ✔ tibble    3.3.1
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.2
 ✔ purrr     1.2.1     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -2673,7 +2673,7 @@ globalThis.qwebrCreateMonacoEditorInstance = function (cellData) {
 <div id="qwebr-insertion-location-33"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p>Here it’s important to <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> the data, because SQL tables have no intrinsic order. In fact, if you don’t use <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> you might get the rows back in a different order every time! Notice for window functions, the ordering information is repeated: the <code>ORDER BY</code> clause of the main query doesn’t automatically apply to window functions.</p>
-<p>Another important SQL function is <code>CASE WHEN</code>. It’s used as the translation of <code><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when()</a></code>, the dplyr function that it directly inspired. Here are a couple of simple examples:</p>
+<p>Another important SQL function is <code>CASE WHEN</code>. It’s used as the translation of <code><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html">case_when()</a></code>, the dplyr function that it directly inspired. Here are a couple of simple examples:</p>
 <div id="qwebr-insertion-location-34"></div>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 <p><code>CASE WHEN</code> is also used for some other functions that don’t have a direct translation from R to SQL. A good example of this is <code><a href="https://rdrr.io/r/base/cut.html">cut()</a></code>:</p>
